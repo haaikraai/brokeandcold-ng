@@ -23,7 +23,7 @@ export class MainviewComponent {
     setTimeout(() => {
       
       // this.statusText = 'mainview component ready';
-      this.statusControl.setStatus('mainview component ready');
+      this.statusControl.addStatus('mainview component ready');
       console.log(this.statusControl.getStatus());
 
 

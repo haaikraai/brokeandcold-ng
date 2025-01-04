@@ -38,16 +38,13 @@ export class BeanServiceService {
   set balance(value: number) {
     this.balanceData.balance = value;
     // hmm, using angular now. Can't alter DOM directly. Must use interpolation
-    // this.balanceTag.innerText = this.balance;
   }
-
-  // A flag determining whether a button was recently clicked. This is used to allow multiple clicks to be registered and agglomerated as one total transaction
 
   // timeBeforeNewTransaction = 3500; Doubleclick time
   // VERY fine tuning: the milliseconds to elapse before allowing a click to be registered to a new transaction
-  ALLOWED_IDLE_TIME = 4000;
+  ALLOWED_IDLE_TIME = 3000;
   runningTotal = 0;
-  clickTimer: number = 0; // id of setTimeout
+  clickTimer: EventTimer = new EventTimer(this.ALLOWED_IDLE_TIME, () => this.updateBalance(this.runningTotal));
   
   
   // TODO: implement history. Guess yet another service? Jip.
@@ -70,37 +67,46 @@ export class BeanServiceService {
       console.log('finished loading');
       this.updateDate();
       this.updateBalance();
-      this.statusControl.setStatus('Updated balance from saved file');
+      this.statusControl.addStatus('Updated balance from saved file');
       this.saveBalance("Loaded balance from saved file and applied daily allowances");
       // this.ledger.saveHistory();
     }, 5000);
   }
 
   increment() {
-    
     console.log(this);
     console.log('BeanService increment');
+    this.clickTimer.onClick('clicked +');
     // console.log(this.balanceData);
     this.runningTotal += this.balanceData.incAmount;
-    this.statusControl.setStatus("Adding: " + this.runningTotal);
+    this.statusControl.addStatus("Adding: " + this.runningTotal);
   }
 
   decrement() {
     console.log('BeanService decrement');
     // this.balance -= this.balanceData.decAmount;
+    this.clickTimer.onClick('clicked -');
     console.log(this.balanceData.decAmount);
     this.runningTotal += this.balanceData.decAmount;
-    this.statusControl.setStatus("Subtracting: " + this.runningTotal);
+    this.statusControl.addStatus("Subtracting: " + this.runningTotal);
   }
 
 
-    // Uses runningTotal to update balance.
-  // TODO: should be a method of LedgerBook. Should also have a parameter for amount.
-  // Only function of this function is to update the balance display
-  updateBalance(amount = this.runningTotal) {
-    this.balance += amount;
+  /*
+  @param {Transaction | Number} entry
+  @description updates the balance by adding the amount of the passed transaction. A number is just straight added to the balance.
+
+  In general a transaction is prefered over a number to be logged to the ledger. A number on its own is just added to the balance and there for developer convenience. Even changing an incorrect balance due to a typo should ideally have a transaction to log the reasons for the change.
+  */
+  updateBalance(entry: Transaction | Number = this.runningTotal) {
+    if (typeof entry === 'number') {
+      this.balance += entry;
+    } else {
+      this.balance += (<Transaction>entry).amount;
+    }
     // debugAction.innerText = 'Updated balance by: ' + this.runningTotal;
-    this.statusControl.setStatus("Transaction Total: " + this.runningTotal);
+    this.statusControl.addStatus("Transaction Total: " + this.runningTotal);
+    this.runningTotal = 0;
   }
 
   saveBalance(msg: string) {
@@ -114,7 +120,7 @@ export class BeanServiceService {
     window.localStorage.setItem('data', data);
 
 
-    this.statusControl.setStatus('Balance after transaction: ' + this.balance.toString() + '---' + msg);
+    this.statusControl.addStatus('Balance after transaction: ' + this.balance.toString() + '---' + msg);
     
     // lastDate.textContent = new Date(this.balanceData.date).toLocaleString();
   }
@@ -134,22 +140,25 @@ export class BeanServiceService {
     console.log(savedData);
     if (savedData) {
       this.balanceData = JSON.parse(savedData);
-      this.statusControl.setStatus('Loaded balance: ' + this.balanceData.balance);
+      this.statusControl.addStatus('Loaded balance: ' + this.balanceData.balance);
     }
     else {
       console.log('No data in localStorage')
-      this.statusControl.setStatus('No saved data, using defualts');
+      this.statusControl.addStatus('No saved data, using defualts');
       this.balanceData = defaultValues;
     };
     this.balance = this.balanceData.balance;
     console.log('Loaded: ', this.balanceData);
 
-    this.statusControl.setStatus('Loaded balance: '+ this.balance);
+    this.statusControl.addStatus('Loaded balance: '+ this.balance);
     // lastDate.textContent = new Date(this.balanceData.date).toLocaleString();
   }
 
 
   updateDate() {
+    console.log('let us debug');
+    console.log('should be debugging');
+    
     console.log('BeanService pay daily allowances');
     // no, only update date when saving
     // const today = new Date();
@@ -168,7 +177,7 @@ export class BeanServiceService {
     if (deltaHours >= 24) {
       window.localStorage.setItem('backup', window.localStorage.getItem('data') ?? "{}");
       console.log('backed up data');
-      this.statusControl.setStatus('Backed up data');
+      this.statusControl.addStatus('Backed up data');
     }
 
     // use already calculated days ellapsed to get new balance
@@ -180,7 +189,7 @@ export class BeanServiceService {
     this.balanceData.date = today;
     this.balanceData.balance = this.balance;
 
-    this.statusControl.setStatus(`Added ${totalIncome} to balance`);
+    this.statusControl.addStatus(`Added ${totalIncome} to balance`);
     // debugAction.textContent = `Updated balance with ${totalIncome} for ${deltaDays} days`;
     // lastDate.textContent = new Date(this.balanceData.date).toDateString();
 
@@ -223,32 +232,32 @@ class LedgerBook {
   }
 }
 
-class eventTimer {
+class EventTimer {
   recentClick = false;
   recentThreshold = 14000;
-  activeTimer;
-  callBack;
+  activeTimer = 0;
+  callBack = () => {};
 
-  constructor(threshold, runAfterTimeout) {
-      this.recentThreshold = threshold;
-      this.callBack = runAfterTimeout;
+  constructor(maxIdleTime: number, actionOnIdle: () => void) {
+      this.recentThreshold = maxIdleTime;
+      this.callBack = actionOnIdle;
   }
 
-  onClick(debugMsg) {
+  onClick(debugMsg: string) {
       console.log(debugMsg);
-      const recentClick = this.recentClick;
-      console.log('click noted. Currently have: ' + recentClick);
+      
+      console.log('click noted. Currently have: ' + this.recentClick);
       console.log(this.activeTimer);
 
-      if (recentClick == false) {
+      if (this.recentClick == false) {
           this.startTimer();
-          return (recentClick);
+          return
       }
 
-      if (recentClick == true) {
+      if (this.recentClick == true) {
           clearTimeout(this.activeTimer);
           this.startTimer();
-          return (recentClick);
+          return
       }
 
       console.log("event happened. Starting or restarting timer");
@@ -259,8 +268,9 @@ class eventTimer {
       console.log('Starting timer');
       this.recentClick = true;
       this.activeTimer = setTimeout(() => {
-          console.log('class timer is done');
+          console.log('click timer is done after ' + this.recentThreshold + 'ms');
           this.recentClick = false;
+          clearTimeout(this.activeTimer);
           this.callBack();
       }, this.recentThreshold);
   }

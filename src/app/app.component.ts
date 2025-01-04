@@ -16,9 +16,14 @@ export class AppComponent implements OnInit {
   
   ngOnInit() {
     setTimeout(() => {
-      this.statusControl.setStatus('ready');
+      this.statusControl.addStatus('ready');
       console.log(this.statusControl.getStatus());
     }, 4000)
+  }
+
+  addStatus(message: string) {
+    console.log('Adding status: ' + message);
+    this.statusControl.addStatus(message);
   }
     
   
