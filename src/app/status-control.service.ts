@@ -8,6 +8,7 @@ export class StatusControlService {
   private timer: number = 0;
   private statusQueue: string[] = [''];
   private statusActive: boolean = false;
+  private DISPLAY_TIME = 5000;
   /**
    * Sets the status text for a short duration.
    * The text is cleared after 5 seconds.
@@ -37,15 +38,29 @@ export class StatusControlService {
           this.status = '';
           this.statusActive = false;
           clearTimeout(this.timer);
-          console.log('status cleared. Timer cleared.')
+          console.log('status blankeda. Timer cleared after showing status because new status does not cut current status duration short.')
           if (this.statusQueue.length > 0) {
             this.showStatus();
           }
-        }, 5000);  
+        }, this.DISPLAY_TIME);  
       }
     }
     return this.status;
+  }
 
+  addPriorityStatus(message: string) {
+    this.status = message;
+    this.statusQueue = [message];
+    this.statusActive = true;
+    clearTimeout(this.timer);
+    console.log('timer cleared before initialising new one to ensure full duraation for new important status message');
+    console.log('though note it doensnt affect the value itself, just looks shitty from UI perspective');
+    this.timer = setTimeout(() => {
+      this.status = '';
+      this.statusActive = false;
+      this.statusQueue = [''];
+      console.log('status blanked, timer dont-give-a-damn');
+    }, this.DISPLAY_TIME);
   }
 
   getStatus(): String {

@@ -37,4 +37,14 @@ export class MainviewComponent {
   onDecrement() {
     this.beanService.decrement();
   }
+
+  onSaveButton() {
+    this.statusControl.addStatus('Manually saved balance');
+    this.beanService.saveBalance('Manually saved balance');
+  }
+
+  onLoadButton() {
+    this.beanService.loadBalance();
+    this.statusControl.addStatus('Manually loaded balance');
+  }
 }

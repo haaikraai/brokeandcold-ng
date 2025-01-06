@@ -79,7 +79,7 @@ export class BeanServiceService {
     this.clickTimer.onClick('clicked +');
     // console.log(this.balanceData);
     this.runningTotal += this.balanceData.incAmount;
-    this.statusControl.addStatus("Adding: " + this.runningTotal);
+    this.statusControl.addPriorityStatus("Adding: " + this.runningTotal);
   }
 
   decrement() {
@@ -88,7 +88,7 @@ export class BeanServiceService {
     this.clickTimer.onClick('clicked -');
     console.log(this.balanceData.decAmount);
     this.runningTotal += this.balanceData.decAmount;
-    this.statusControl.addStatus("Subtracting: " + this.runningTotal);
+    this.statusControl.addPriorityStatus("Subtracting: " + this.runningTotal);
   }
 
 
@@ -105,7 +105,8 @@ export class BeanServiceService {
       this.balance += (<Transaction>entry).amount;
     }
     // debugAction.innerText = 'Updated balance by: ' + this.runningTotal;
-    this.statusControl.addStatus("Transaction Total: " + this.runningTotal);
+    console.log('Updated balance by: ' + this.runningTotal);
+    this.statusControl.addPriorityStatus("Transaction Total: " + this.runningTotal);
     this.runningTotal = 0;
   }
 
@@ -120,7 +121,7 @@ export class BeanServiceService {
     window.localStorage.setItem('data', data);
 
 
-    this.statusControl.addStatus('Balance after transaction: ' + this.balance.toString() + '---' + msg);
+    this.statusControl.addStatus('Saved balance: ' + this.balance.toString() + ' -for reasons- ' + msg);
     
     // lastDate.textContent = new Date(this.balanceData.date).toLocaleString();
   }
@@ -140,30 +141,29 @@ export class BeanServiceService {
     console.log(savedData);
     if (savedData) {
       this.balanceData = JSON.parse(savedData);
-      this.statusControl.addStatus('Loaded balance: ' + this.balanceData.balance);
+      this.statusControl.addStatus('Loaded balance from storage: ' + this.balanceData.balance);
     }
     else {
       console.log('No data in localStorage')
-      this.statusControl.addStatus('No saved data, using defualts');
+      this.statusControl.addStatus('No saved data, using defualt value of ' + defaultValues.balance);
       this.balanceData = defaultValues;
     };
     this.balance = this.balanceData.balance;
     console.log('Loaded: ', this.balanceData);
 
-    this.statusControl.addStatus('Loaded balance: '+ this.balance);
+    // this.statusControl.addStatus('Loaded balance: '+ this.balance);
     // lastDate.textContent = new Date(this.balanceData.date).toLocaleString();
   }
 
 
   updateDate() {
-    console.log('let us debug');
-    console.log('should be debugging');
     
     console.log('BeanService pay daily allowances');
     // no, only update date when saving
     // const today = new Date();
     const today = new Date();
     const loadedDate = new Date(this.balanceData.date);
+    this.statusControl.addStatus('Last saved date: ' + loadedDate.toLocaleString());
 
     // get time difference between now and last saved in milliseconds, hours, days.
     const deltaTime = today.getTime() - loadedDate.getTime();
@@ -189,7 +189,7 @@ export class BeanServiceService {
     this.balanceData.date = today;
     this.balanceData.balance = this.balance;
 
-    this.statusControl.addStatus(`Added ${totalIncome} to balance`);
+    this.statusControl.addStatus(`Added ${totalIncome} to balance for ${deltaDays} days ellapsed`);
     // debugAction.textContent = `Updated balance with ${totalIncome} for ${deltaDays} days`;
     // lastDate.textContent = new Date(this.balanceData.date).toDateString();
 
@@ -198,6 +198,7 @@ export class BeanServiceService {
       this.updateBalance(this.balance);
       const entry: Transaction = { date: Date.now(), tags: ['daily', 'allowance', 'paid'], amount: totalIncome };
       this.ledger.addEntry(entry)
+      this.statusControl.addStatus('Added entry: ' + JSON.stringify(entry));
     }
   }
 
@@ -228,7 +229,6 @@ class LedgerBook {
   ledgerData: Transaction[] = [];
   addEntry(entry: Transaction) {
     this.ledgerData.push(entry);
-    
   }
 }
 
