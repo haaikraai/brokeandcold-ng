@@ -1,0 +1,16 @@
+<table>
+    <th>Date</th>
+    <th>Tags</th>
+    <th>Amount</th>
+    @for (entry of displayedLedger; track entry.date) {
+        <tr (click)="editEntry(entry)">
+            <td>{{ entry.date | date:"mediumDate" }}</td>
+            <td>{{ entry.tags.join(', ') }}</td>
+            <td>{{ entry.amount }}</td>
+        </tr>
+    } @empty {
+    <tr>
+        <td colspan="3">Listingy fucka, you haven't done nothing with your moneys</td>
+    </tr>
+    }
+</table>

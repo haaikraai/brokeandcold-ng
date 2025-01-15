@@ -1,21 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { StatusControlService } from './status-control.service';
-
-
-interface Transaction {
-  date: number,
-  tags: Array<string>,
-  amount: number,
-}
+import { Transaction } from './transaction';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BeanServiceService {
 
-  private statusControl = inject(StatusControlService
+  private statusControl = inject(StatusControlService)
 
-  )
   balanceData = {
     balance: 0,
     date: new Date(),
@@ -35,9 +28,10 @@ export class BeanServiceService {
   get balance(): number { 
     return this.balanceData.balance; 
   }
+
+  // will this automatically update the component UI or should I use a signal?
   set balance(value: number) {
     this.balanceData.balance = value;
-    // hmm, using angular now. Can't alter DOM directly. Must use interpolation
   }
 
   // timeBeforeNewTransaction = 3500; Doubleclick time
@@ -58,6 +52,7 @@ export class BeanServiceService {
     
     console.log('loading saaved data');
     this.loadBalance();
+    this.statusControl.addStatus('Updated balance from saved file');
     // TODO: implement loadHistory method
     // this.ledger.loadHistory();
     console.log(this.ledger.ledgerData);
@@ -67,7 +62,7 @@ export class BeanServiceService {
       console.log('finished loading');
       this.updateDate();
       this.updateBalance();
-      this.statusControl.addStatus('Updated balance from saved file');
+      this.statusControl.addStatus('Calculated daily allowances');
       this.saveBalance("Loaded balance from saved file and applied daily allowances");
       // this.ledger.saveHistory();
     }, 5000);
@@ -98,16 +93,24 @@ export class BeanServiceService {
 
   In general a transaction is prefered over a number to be logged to the ledger. A number on its own is just added to the balance and there for developer convenience. Even changing an incorrect balance due to a typo should ideally have a transaction to log the reasons for the change.
   */
-  updateBalance(entry: Transaction | Number = this.runningTotal) {
-    if (typeof entry === 'number') {
-      this.balance += entry;
+  updateBalance(entryDetail: Transaction | Number = this.runningTotal) {
+    let entry: Transaction;
+    if (typeof entryDetail === 'number') {
+      this.balance += entryDetail;
+      entry = {date: new Date().getTime(), tags: ['unknown','source'], amount: entryDetail};
     } else {
-      this.balance += (<Transaction>entry).amount;
+      entry = (<Transaction>entryDetail)
+      this.balance += entry.amount;
     }
+
     // debugAction.innerText = 'Updated balance by: ' + this.runningTotal;
     console.log('Updated balance by: ' + this.runningTotal);
     this.statusControl.addPriorityStatus("Transaction Total: " + this.runningTotal);
+    
+  if (entry.amount != 0) {
+    this.ledger.addEntry(entry);
     this.runningTotal = 0;
+  }
   }
 
   saveBalance(msg: string) {
@@ -119,8 +122,6 @@ export class BeanServiceService {
     console.log(data);
     // window.localStorage.setItem('balance', this.balance);
     window.localStorage.setItem('data', data);
-
-
     this.statusControl.addStatus('Saved balance: ' + this.balance.toString() + ' -for reasons- ' + msg);
     
     // lastDate.textContent = new Date(this.balanceData.date).toLocaleString();
@@ -130,11 +131,12 @@ export class BeanServiceService {
     console.log('BeanService loadBalance');
     const defaultValues = {
       balance: 0,
-      date: new Date(),
+      date: new Date('2025-01-07'),
       incAmount: 100,
       decAmount: -25,
       dailyAmount: 250
     };
+    // THIS LINE IS A FLAG TO PREVENT LOADING DATA AND USE DEFAULT INSTEAD
     window.localStorage.removeItem('data');
     const savedData = window.localStorage.getItem('data');
     console.log('Data in lcoalstorage');
@@ -171,7 +173,7 @@ export class BeanServiceService {
     const deltaDays = Math.floor(deltaTime / 1000 / 60 / 60 / 24);
 
     console.log('Calculations:');
-    console.log(deltaTime + ' - ' + deltaHours + ' - ' + deltaDays);
+    console.log(deltaTime + ' = hours: ' + deltaHours + '; days: ' + deltaDays);
 
     // SAVE backup if more than 24 hours passed:
     if (deltaHours >= 24) {
@@ -183,21 +185,23 @@ export class BeanServiceService {
     // use already calculated days ellapsed to get new balance
     // Math.floor - do not want fractional salaries
 
-    const totalIncome = deltaDays * this.balanceData.dailyAmount;
-    console.log(`added income to bal. Total: ${totalIncome} - for ${deltaDays} days ellapsed`);
-    this.balance = this.balance + totalIncome;
+    this.runningTotal = deltaDays * this.balanceData.dailyAmount;
+    console.log(`added income to bal. Total: ${this.runningTotal} - for ${deltaDays} days ellapsed`);
+    this.balance = this.balance + this.runningTotal;
     this.balanceData.date = today;
     this.balanceData.balance = this.balance;
 
-    this.statusControl.addStatus(`Added ${totalIncome} to balance for ${deltaDays} days ellapsed`);
+    this.statusControl.addStatus(`Added ${this.runningTotal} to balance for ${deltaDays} days ellapsed`);
     // debugAction.textContent = `Updated balance with ${totalIncome} for ${deltaDays} days`;
     // lastDate.textContent = new Date(this.balanceData.date).toDateString();
 
     this.saveBalance('daily allowances');
     if (deltaDays > 0) {
-      this.updateBalance(this.balance);
-      const entry: Transaction = { date: Date.now(), tags: ['daily', 'allowance', 'paid'], amount: totalIncome };
-      this.ledger.addEntry(entry)
+      
+      const entry: Transaction = { date: Date.now(), tags: ['daily', 'allowance', 'paid'], amount: this.runningTotal };
+      this.updateBalance(entry);
+      // this.ledger.addEntry(entry)
+      this.saveBalance('daily allowances');
       this.statusControl.addStatus('Added entry: ' + JSON.stringify(entry));
     }
   }
@@ -228,6 +232,7 @@ class LedgerBook {
   
   ledgerData: Transaction[] = [];
   addEntry(entry: Transaction) {
+    console.log('ADDDING AN ENTRY!!!!');
     this.ledgerData.push(entry);
   }
 }

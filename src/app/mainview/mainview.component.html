@@ -36,7 +36,7 @@
     <th>Amount</th>
   </thead>
   <tbody>
-    <!-- <span id="date"></span>
+    <!-- <span id="date"></span>  
         <span id="tags"></span>
         <span id="Amount"></span> -->
   </tbody>
@@ -44,7 +44,7 @@
 
 <!-- Trigger button -->
 
-<button type="button" id="testButton">Just test</button>
+<button type="button" id="testButton" (click)="onTestButton()">Just test</button>
 
 <!-- <div class="card-header">
           <h4 class="ion-list-header" color="dark">
@@ -56,6 +56,11 @@
             <li>Test LIst 3</li>
           </ul>
      -->
+
+
+<ng-content>
+  <!-- add any testing crap and stuff here -->
+</ng-content>
 
 <!-- Modal container -->
 <dialog>
