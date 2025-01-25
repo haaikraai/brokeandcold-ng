@@ -1,16 +1,58 @@
-<table>
-    <th>Date</th>
-    <th>Tags</th>
-    <th>Amount</th>
-    @for (entry of displayedLedger; track entry.date) {
-        <tr (click)="editEntry(entry)">
+<div class="container">
+    <table>
+
+        <th>Date</th>
+        <th>Tags</th>
+        <th>Amount</th>
+
+        @for (entry of displayedLedger; track entry.date) {
+        <tr (click)="editEntry(entry)" class="edit-row">
             <td>{{ entry.date | date:"mediumDate" }}</td>
             <td>{{ entry.tags.join(', ') }}</td>
             <td>{{ entry.amount }}</td>
         </tr>
-    } @empty {
-    <tr>
-        <td colspan="3">Listingy fucka, you haven't done nothing with your moneys</td>
-    </tr>
-    }
-</table>
+        }
+        @empty {
+        <tr class="edit-row">
+            <td colspan="3">Listingy fucka, you haven't done nothing with your moneys</td>
+        </tr>
+        }
+    </table>
+</div>
+
+<!-- Modal container -->
+ <!-- <ng-container #editForm> -->
+<dialog id="editFormId" #editForm>
+    <!-- <div id="modal" class="modal"> -->
+    <form method="dialog" id="modalForm" class="responsive-form">
+        <div class="modal-content">
+            <h2>bleep edit</h2>
+            <!-- Modal content -->
+            <div class="settings-form">
+                <div class="entry-row">
+                    <label>Date</label>
+                    <input class="inputbox" type="date" id="modal-date" />
+                </div>
+                <div class="entry-row">
+                    <label>Tags</label>
+                    <input class="inputbox" type="text" id="modal-tags" />
+                </div>
+                <div class="entry-row">
+                    <label>Amount</label>
+                    <input class="inputbox" type="number" id="modal-amount" />
+                </div>
+            </div>
+            <div class="button-bar">
+                <button type="submit" id="modal-save" class="better-button">
+                    Save
+                </button>
+                <button type="button" id="modal-close" class="better-button">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+    <!-- </div> -->
+</dialog>
+<!-- </ng-container> -->
+<!-- <script src="js/modal.js"></script> -->

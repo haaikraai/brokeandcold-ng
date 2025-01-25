@@ -1,22 +1,59 @@
+.container {
+    border: 3px ridge purple;
+    width: 96%;
+    padding: 2px;
+    margin: auto;
+}
+
 table {
     border-collapse: collapse;
-    width: 95%;
+    width: 100%;
     margin: auto;
     border: 2px solid black;
     text-align: center;
+    padding: 1px;
+    table-layout: fixed;
+    white-space: nowrap;
+    text-overflow: ellipsisf;
     /* table-layout: fixed; */
 }
 
+
+
 th {
     border: 1px solid black;
-    padding: 2px;
     text-align: center;
 
 }
 
 td {
     border: 1px solid black;
-    padding: 2px;
+    padding: 10px auto;
     text-align: center;
 
+}
+
+.edit-row {
+    background: lightgray;
+}
+
+.edit-row:hover {
+    background: rgb(46, 58, 25);
+    color: white;
+    cursor: pointer;
+}
+
+table td:nth-child(1) {
+    text-align: left;
+    width: 200px;
+}
+
+table td:nth-child(2) {
+    text-align: center;
+    width: auto;
+}
+
+table td:nth-child(3) {
+    text-align: right;
+    width: 100px
 }

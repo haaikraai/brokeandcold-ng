@@ -1,0 +1,22 @@
+<div class="form-container">
+    <form [formGroup]="editForm" (ngSubmit)="onSaveButton()" class="responsive-form">
+        <div>
+        <label for="amount">Amount</label>
+        <input formControlName="amount" type="number" id="amount" />
+        </div>
+        <div>
+        <label for="date">Date</label>
+        <input formControlName="date" type="date" id="date" />
+        </div>
+        <div>
+        <label for="tags">Tags</label>
+        <input formControlName="tags" type="text" id="tags" />
+        </div>
+        <div>
+            <span>
+                <button type="submit">Save</button>
+            </span>
+            <button type="button" (click)="onCancelButton()">Cancel</button>
+        </div>
+    </form>
+</div>

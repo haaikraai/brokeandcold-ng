@@ -1,9 +1,8 @@
 
-import { Component, inject, input } from '@angular/core';
+import { Component, ElementRef, HostBinding, inject, input, TemplateRef, ViewChild } from '@angular/core';
 import { BeanServiceService } from '../bean-service.service';
 import { Transaction } from '../transaction';
 import { DatePipe } from '@angular/common';
-import { AppComponent } from '../app.component';
 import { StatusControlService } from '../status-control.service';
 
 @Component({
@@ -21,9 +20,15 @@ export class LedgerViewComponent {
   // To think. Should I use data from beanService or input own data?
   // Use from beanService - it is there already after all, less chance of errors, less code, less memory. Yeah.
   private beanService = inject(BeanServiceService);
-  private ledgerData: Transaction[];
+  private ledgerData!: Transaction[];
   private _displayedLedger: Transaction[] = [];
   private statusControl = inject(StatusControlService);
+  private route = inject
+
+
+  
+
+  // editModal: ElementRef<HTMLElement> = ViewChild('#editfo', {read: ElementRef, static: false})
   get displayedLedger(): Transaction[] {
     this._displayedLedger = this.ledgerData.slice(0, Math.min(this.maxRows(),this.ledgerData.length));
     return this._displayedLedger;
@@ -31,17 +36,23 @@ export class LedgerViewComponent {
   // set displayedLedger(value: Transaction[]) {
   // }
 
+
   maxRows = input<number>(8);
   
 
   constructor() {
     // put initialization in constructor so that fresh data is obtained each time.
-    this.ledgerData = this.beanService.ledger.ledgerData;
-
+    
+    
   }
 
   ngOnInit() {
-  
+    this.ledgerData = this.beanService.ledger.ledgerData;
+    
+  }
+
+  ngAfterViewInit() {
+    
   }
 
   renderLog(placementElement: HTMLElement, rows: number = 8) {
@@ -49,7 +60,12 @@ export class LedgerViewComponent {
   }
 
   editEntry(entry: Transaction) {
+    console.log('HERE NOW: ABOUT TO edit an entry');  
+    // console.log(this.editModal.nativeElement);
+    console.log(this.editModal);
     this.statusControl.addStatus('Editing: ' + entry.date);
+     
+     
   }
 
 

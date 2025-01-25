@@ -1,0 +1,9 @@
+/* make container smaller to mimic the modal idea
+but all-in-all it is just a new component, could be fullscreen or halfscreen
+*/
+
+:host {
+    margin: 20px;
+    border: 3px ridge skyblue;
+    padding: 10px;
+}

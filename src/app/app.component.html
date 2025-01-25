@@ -1,10 +1,11 @@
 <app-topbar></app-topbar>
 <router-outlet>
+</router-outlet>
+<hr>
+<app-ledger-view></app-ledger-view>
+
     <h1>Testings</h1>
     <button id="testBtn" type="button" (click)="testStuff()">Dark Mode</button>
     <input #statusMessage type="text" id="statusMessage" value="" />
     <button id="addStatusBtn" type="button" (click)="addStatus(statusMessage.value)">Save</button>
 <hr>
-</router-outlet>
-<hr>
-<app-ledger-view></app-ledger-view>
