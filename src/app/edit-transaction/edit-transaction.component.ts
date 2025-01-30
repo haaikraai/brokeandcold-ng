@@ -1,21 +1,23 @@
 import { Component, inject, input, output } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Transaction } from '../transaction';
+import { DatePipe } from '@angular/common';
 
 
 
 @Component({
   standalone: true,
   selector: 'app-edit-transaction',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule, DatePipe],
   templateUrl: './edit-transaction.component.html',
   styleUrl: './edit-transaction.component.css',
 })
 export class EditTransactionComponent {
 
-  entryDetails = input<Transaction>({ date: 0, tags: [], amount: 0 })
+  entryDetails = input<Transaction>({ date: Date.now(), tags: [], amount: 0 })
   updatedEntry = output<Transaction>()
   editForm: FormGroup = new FormGroup({});
+  
 
 
   // private fb = inject(FormBuilder)
@@ -28,16 +30,23 @@ export class EditTransactionComponent {
       cancel: new FormControl(),
       sav: new FormControl(),
     });
+
+    
   }
 
   constructor() {}
 
+  
+
 
   onCancelButton() {
-    // close modal
+    
+    // close modal and emit same as input
+    this.updatedEntry.emit(this.entryDetails());
   }
 
   onSaveButton() {
+    console.log(this.editForm.value);
     // save stuff
   }
 }

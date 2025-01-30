@@ -1,22 +1,42 @@
-<div class="form-container">
+<!-- <div class="form-container">
     <form [formGroup]="editForm" (ngSubmit)="onSaveButton()" class="responsive-form">
-        <div>
-        <label for="amount">Amount</label>
-        <input formControlName="amount" type="number" id="amount" />
+        <div class="entry-row">
+            <label class="inputbox" for="amount">Amount</label>
+            <input class="inputbox" formControlName="amount" type="number" id="amount" />
         </div>
-        <div>
-        <label for="date">Date</label>
-        <input formControlName="date" type="date" id="date" />
+        <div class="entry-row">
+            <label class="inputbox" for="date">Date</label>
+            <input class="inputbox" formControlName="date" type="date" id="date" />
         </div>
-        <div>
-        <label for="tags">Tags</label>
-        <input formControlName="tags" type="text" id="tags" />
+        <div class="entry-row">
+            <label class="inputbox" for="tags">Tags</label>
+            <input class="inputbox" formControlName="tags" type="text" id="tags" />
         </div>
-        <div>
-            <span>
-                <button type="submit">Save</button>
-            </span>
-            <button type="button" (click)="onCancelButton()">Cancel</button>
+        <div class="button-bar">
+            <button class="better-button" type="submit" (click)="onSaveButton()">Save</button>
+            <button class="better-button" type="button" (click)="onCancelButton()">Cancel</button>
+        </div>
+    </form>
+</div> -->
+<hr>
+<h2>Template From</h2>
+<div class="form-container">
+    <form #editForm="ngForm" (ngSubmit)="onSaveButton()" class="responsive-form">
+        <div class="entry-row">
+            <label class="inputbox" for="amount">Amount</label>
+            <input class="inputbox" [(ngModel)]="entryDetails().amount" name="amount" type="number" id="amount" required />
+        </div>
+        <div class="entry-row">
+            <label class="inputbox" for="date">Date</label>
+            <input class="inputbox" [(ngModel)]="entryDetails().date" [value]= "entryDetails().date | date:'yyyy-MM-dd'" name="date" type="date" id="date" required />
+        </div>
+        <div class="entry-row">
+            <label class="inputbox" for="tags">Tags</label>
+            <input class="inputbox" [(ngModel)]="entryDetails().tags" name="tags" type="text" id="tags" required />
+        </div>
+        <div class="button-bar">
+            <button class="better-button" type="submit" (click)="onSaveButton()">Save</button>
+            <button class="better-button" type="button" (click)="onCancelButton()">Cancel</button>
         </div>
     </form>
 </div>

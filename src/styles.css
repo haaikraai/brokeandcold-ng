@@ -101,18 +101,27 @@ body.dark-mode .better-button.nosign-text:active {
     align-items: stretch;
     /* align-content: center; */
     /* text-align: center; */
-    vertical-align: middle;
+    vertical-align: auto;
+}
+
+.responsive-form {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 .better-button {
     flex-basis: 50%;
     /* width: 40%; */
     
+    min-width: 45%;
     background-color: rgb(83, 142, 142);
     border: 9px ridge darkslategray;
     border-radius: 10px;
     margin: 2px 1px;
-    flex-grow: 0;
+    flex-grow: 1;
     flex-shrink: 1;
     /* margin: 0px;     */
 }
@@ -167,6 +176,7 @@ body.dark-mode .better-button.nosign-text:active {
     /* note last columns is empty spans to center the fucking thing */
     grid-template-columns: 150px 150px ;
     margin: 3px auto;
+    padding: 5px;
     /* width: 200px; */
     border: 1px dashed red;
     /* width: 250px; */
@@ -228,10 +238,4 @@ button:hover {
     cursor: pointer;
 }
 
-.responsive-form {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;   
-}
 
