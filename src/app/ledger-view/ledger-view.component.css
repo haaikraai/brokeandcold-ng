@@ -14,7 +14,7 @@ table {
     padding: 1px;
     table-layout: fixed;
     white-space: nowrap;
-    text-overflow: ellipsisf;
+    text-overflow: ellipsis;
     /* table-layout: fixed; */
 }
 

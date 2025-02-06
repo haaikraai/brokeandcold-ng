@@ -22,50 +22,13 @@
     </table>
 </div>
 
+<!-- going to skip the modal container for now, ok, okay -->
 
-@if (editingModal) {
 <h3>editing seems to be too true</h3>
-<app-amodal>
+<app-amodal [isOpen]="editingModal">
     <div>
-        <p>theoretical projected content</p>
-        <app-edit-transaction [entryDetails]="currentEntry()" (updatedEntry)="modalClosed($event)"></app-edit-transaction>
+        <h3>theoretical projected content</h3>
+        <app-edit-transaction [entryDetails]="currentEntry" (closeForm)="editingModal = false" (updatedEntry)="modalClosed($event)"></app-edit-transaction>
+        <h4>that was so meta</h4>
     </div>
 </app-amodal>
-}
-
-<!-- Modal container -->
-<!-- <ng-container #editForm> -->
-<dialog id="editFormId" #editForm>
-    <!-- <div id="modal" class="modal"> -->
-    <form method="dialog" id="modalForm" class="responsive-form">
-        <div class="modal-content">
-            <h2>bleep edit</h2>
-            <!-- Modal content -->
-            <div class="settings-form">
-                <div class="entry-row">
-                    <label>Date</label>
-                    <input class="inputbox" type="date" id="modal-date" />
-                </div>
-                <div class="entry-row">
-                    <label>Tags</label>
-                    <input class="inputbox" type="text" id="modal-tags" />
-                </div>
-                <div class="entry-row">
-                    <label>Amount</label>
-                    <input class="inputbox" type="number" id="modal-amount" />
-                </div>
-            </div>
-            <div class="button-bar">
-                <button type="submit" id="modal-save" class="better-button">
-                    Save
-                </button>
-                <button type="button" id="modal-close" class="better-button">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </form>
-    <!-- </div> -->
-</dialog>
-<!-- </ng-container> -->
-<!-- <script src="js/modal.js"></script> -->

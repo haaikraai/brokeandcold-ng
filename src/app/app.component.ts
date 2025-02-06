@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   private beanService = inject(BeanServiceService);
   ngOnInit() {
     setTimeout(() => {
+      this.beanService.ledger.addEntry({ date: Date.parse('2025-01-12'), tags: ['phoney','fake','entry'], amount: 399})
       this.statusControl.addStatus('ready');
       console.log(this.statusControl.getStatus());
     }, 4000)

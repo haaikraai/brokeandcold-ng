@@ -41,8 +41,10 @@ export class LedgerViewComponent {
   // }
 
 
+  // TODO: Shouldn't use signals as inputs, just bad taste. See: https://www.youtube.com/watch?v=U8YXaWwyd9k
+  // Summary: Just do the conversion to signal in the child component. This is what input signals do
   maxRows = input<number>(8);
-  currentEntry = signal<Transaction>({ date: Date.now(), tags: ['initial','tags'], amount: 222 });
+  currentEntry: Transaction = ({ date: Date.now(), tags: ['initial','tags'], amount: 222 });
 
   constructor() {
     // put initialization in constructor so that fresh data is obtained each time.
@@ -67,7 +69,7 @@ export class LedgerViewComponent {
     console.log('updating entry details in 5');
     setTimeout(() => {
       console.log('Dadaaaaa');
-      this.currentEntry.set(entry);
+      this.currentEntry = entry;
     }, 5000)
     
     this.editingModal = true;
@@ -75,11 +77,11 @@ export class LedgerViewComponent {
   }
 
   modalClosed(newEntry: Transaction | null) {
+    this.editingModal = false;
     if (newEntry) {
-      this.currentEntry.set(newEntry);
+      this.currentEntry = newEntry;
+      console.log('Received new entry from form and think I changed it. New values are:')
+      console.log(newEntry);
     }
   }
-
-
-
 }

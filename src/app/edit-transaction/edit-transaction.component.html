@@ -19,24 +19,40 @@
     </form>
 </div> -->
 <hr>
-<h2>Template From</h2>
-<div class="form-container">
-    <form #editForm="ngForm" (ngSubmit)="onSaveButton()" class="responsive-form">
-        <div class="entry-row">
-            <label class="inputbox" for="amount">Amount</label>
-            <input class="inputbox" [(ngModel)]="entryDetails().amount" name="amount" type="number" id="amount" required />
+
+<div class="modal-backdrop">
+    <div class="amodal">
+        <h1>Content - test</h1>
+        <p>This is the settings page used for testing ng-content</p>
+        <hr>
+        <h1>Real stuff</h1>
+        <div class="form-container">
+            <form #editForm="ngForm" (ngSubmit)="onSaveButton()" class="responsive-form">
+                <div class="entry-row">
+                    <label class="inputbox" for="amount">Amount</label>
+                    <input class="inputbox" [(ngModel)]="entryDetails().amount" name="amount" type="number" id="amount"
+                        required />
+                    Testing: {{ entryDetails().amount }}
+                </div>
+                <div class="entry-row">
+                    <label class="inputbox" for="date">Date</label>
+                    <input class="inputbox" [(ngModel)]="entryDetails().date" name="date" type="date" id="date" required />
+                    Testing: {{ entryDetails().date | date:'yyyy-MM-dd' }}
+                    Testmore: {{ typeof entryDetails().date }}
+
+                </div>
+                <div class="entry-row">
+                    <label class="inputbox" for="tags">Tags</label>
+                    <input class="inputbox" [(ngModel)]="entryDetails().tags" name="tags" type="text" id="tags"
+                        required />
+                    Testing: {{ entryDetails().tags}}
+                </div>
+                <div class="button-bar">
+                    <button class="better-button" type="submit" (click)="onSaveButton()">Save</button>
+                    <button class="better-button" type="button" (click)="onCancelButton()">Cancel</button>
+                </div>
+            </form>
         </div>
-        <div class="entry-row">
-            <label class="inputbox" for="date">Date</label>
-            <input class="inputbox" [(ngModel)]="entryDetails().date" [value]= "entryDetails().date | date:'yyyy-MM-dd'" name="date" type="date" id="date" required />
-        </div>
-        <div class="entry-row">
-            <label class="inputbox" for="tags">Tags</label>
-            <input class="inputbox" [(ngModel)]="entryDetails().tags" name="tags" type="text" id="tags" required />
-        </div>
-        <div class="button-bar">
-            <button class="better-button" type="submit" (click)="onSaveButton()">Save</button>
-            <button class="better-button" type="button" (click)="onCancelButton()">Cancel</button>
-        </div>
-    </form>
+    </div>
 </div>
+<h2>Template From</h2>
