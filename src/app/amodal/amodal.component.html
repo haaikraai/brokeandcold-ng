@@ -1,16 +1,16 @@
-@if (isOpen()) {
+<!-- @if (isOpen()) { -->
 <div class="modal-backdrop">
+
     <div class="amodal">
-            <h1>Content - test</h1>
-        <p>This is the settings page used for testing ng-content</p>
-        <hr>
-        <h1>Real stuff</h1>
+        <h2>Editing Transaction</h2>
         <!-- ng-content cant use outputs n stuff. Make modal output an input of the child -->
+         <!-- ng-content will take a ngComponentOutlet. Hope it works -->
         <ng-content></ng-content>
+        
     </div>
 </div>
-} @else {
-    <div>
-        <h2>THE MODAL IS CLOSED</h2>
-    </div>
-}
+<!-- } @else { -->
+    <!-- <div> -->
+        <!-- <h2>THE MODAL IS CLOSED</h2> -->
+    <!-- </div> -->
+<!-- } -->

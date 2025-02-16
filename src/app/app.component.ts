@@ -4,10 +4,11 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { StatusControlService } from './status-control.service';
 import { LedgerViewComponent } from "./ledger-view/ledger-view.component";
 import { BeanServiceService } from './bean-service.service';
+import { AmodalComponent } from "./amodal/amodal.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TopbarComponent, LedgerViewComponent],
+  imports: [RouterOutlet, TopbarComponent, LedgerViewComponent, AmodalComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

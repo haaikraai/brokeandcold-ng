@@ -1,16 +1,17 @@
 
-import { Component, ElementRef, HostBinding, inject, input, signal } from '@angular/core';
-import { NgComponentOutlet } from '@angular/common';
+import { Component, ElementRef, HostBinding, inject, input, signal, Type, ViewChild, viewChild } from '@angular/core';
+import { NgComponentOutlet, NgIf } from '@angular/common';
 import { BeanServiceService } from '../bean-service.service';
-import { Transaction } from '../transaction';
+import { OmniscientTransaction, Transaction } from '../transaction';
 import { DatePipe } from '@angular/common';
 import { StatusControlService } from '../status-control.service';
 import { AmodalComponent } from '../amodal/amodal.component';
 import { EditTransactionComponent } from "../edit-transaction/edit-transaction.component";
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-ledger-view',
-  imports: [DatePipe, EditTransactionComponent,AmodalComponent],
+  imports: [DatePipe, EditTransactionComponent, JsonPipe, NgIf],
   templateUrl: './ledger-view.component.html',
   styleUrl: './ledger-view.component.css',
 })
@@ -23,28 +24,32 @@ export class LedgerViewComponent {
 
   // To think. Should I use data from beanService or input own data?
   // Use from beanService - it is there already after all, less chance of errors, less code, less memory. Yeah.
+  
   private beanService = inject(BeanServiceService);
-  private ledgerData!: Transaction[];
-  private _displayedLedger: Transaction[] = [];
+  private ledgerData!: OmniscientTransaction[];
+  private _displayedLedger: OmniscientTransaction[] = [];
   private statusControl = inject(StatusControlService);
   // private route = inject
   // private comp = NgComponentOutlet
   editingModal = false;
-
+  protected editComponent: Type<AmodalComponent> | Type<EditTransactionComponent> | null = EditTransactionComponent;
+  
+  
 
   // editModal: ElementRef<HTMLElement> = ViewChild('#editfo', {read: ElementRef, static: false})
-  get displayedLedger(): Transaction[] {
+  get displayedLedger(): OmniscientTransaction[] {
     this._displayedLedger = this.ledgerData.slice(0, Math.min(this.maxRows(), this.ledgerData.length));
     return this._displayedLedger;
   }
-  // set displayedLedger(value: Transaction[]) {
-  // }
+  set displayedLedger(value: OmniscientTransaction[]) {
+    this._displayedLedger = [...value];
+  }
 
 
   // TODO: Shouldn't use signals as inputs, just bad taste. See: https://www.youtube.com/watch?v=U8YXaWwyd9k
   // Summary: Just do the conversion to signal in the child component. This is what input signals do
   maxRows = input<number>(8);
-  currentEntry: Transaction = ({ date: Date.now(), tags: ['initial','tags'], amount: 222 });
+  currentEntry: OmniscientTransaction = ({ id: 0, date: Date.now(), tags: ['initial','tags'], amount: 111 });
 
   constructor() {
     // put initialization in constructor so that fresh data is obtained each time.
@@ -52,6 +57,7 @@ export class LedgerViewComponent {
 
   ngOnInit() {
     this.ledgerData = this.beanService.ledger.ledgerData;
+    // this.currentEntry.tags.join()
 
   }
 
@@ -60,23 +66,32 @@ export class LedgerViewComponent {
   }
 
 
+  editEntry(entry: OmniscientTransaction) {
+    this.editingModal = true;
+    this.currentEntry = entry;
+  }
 
-  editEntry(entry: Transaction) {
+
+
+  /*
+  BRING MODAL BACK. USING A ROUTER FOR NOW, TILL it works
+  editEntry(entry: OmniscientTransaction) {
     console.log('HERE NOW: ABOUT TO edit an entry');
     console.log(entry);
     // console.log(this.editModal.nativeElement);
     // console.log(this.editModal);
-    console.log('updating entry details in 5');
-    setTimeout(() => {
-      console.log('Dadaaaaa');
-      this.currentEntry = entry;
-    }, 5000)
+    this.currentEntry = {...entry};
     
     this.editingModal = true;
-    this.statusControl.addStatus('Editing: ' + entry.date);
+    this.editComponent = EditTransactionComponent;
+    // const amodal = AmodalComponent;
+    
+    // this.statusControl.addStatus('Editing: ' + entry.date);
   }
-
-  modalClosed(newEntry: Transaction | null) {
+  */
+  onSave(newEntry: OmniscientTransaction | null) {
+    console.log('Received new entry from form. Closing modal.');  console.log(newEntry);
+    console.log('reminder of old entry: '); console.log(this.currentEntry);
     this.editingModal = false;
     if (newEntry) {
       this.currentEntry = newEntry;
@@ -84,4 +99,5 @@ export class LedgerViewComponent {
       console.log(newEntry);
     }
   }
+
 }

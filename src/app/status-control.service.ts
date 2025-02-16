@@ -15,10 +15,11 @@ export class StatusControlService {
    * @param message The status text to set.
    */
   addStatus(message: string): void {
-    this.statusQueue.unshift(message);
+    this.statusQueue.push(message);
     this.showStatus();
 
   }
+
 
   showStatus(): string {
     // I have unneeded variables here. I will remove them later.
@@ -28,17 +29,16 @@ export class StatusControlService {
     // const timeRemaining = mustFinishBy - Date.now();
     
     console.log('Show status called:');
-    console.log(this.statusQueue);
+    console.log(this.statusQueue);  
 
     if (!this.statusActive) {
-      this.status = this.statusQueue.pop() ?? "";
+      this.status = this.statusQueue.shift() ?? "";
       if (this.status.length > 0) {
         this.statusActive = true;
         this.timer = setTimeout(() => {
           this.status = '';
           this.statusActive = false;
           clearTimeout(this.timer);
-          console.log('status blankeda. Timer cleared after showing status because new status does not cut current status duration short.')
           if (this.statusQueue.length > 0) {
             this.showStatus();
           }
@@ -53,14 +53,13 @@ export class StatusControlService {
     this.statusQueue = [message];
     this.statusActive = true;
     clearTimeout(this.timer);
-    console.log('timer cleared before initialising new one to ensure full duraation for new important status message');
-    console.log('though note it doensnt affect the value itself, just looks shitty from UI perspective');
     this.timer = setTimeout(() => {
       this.status = '';
       this.statusActive = false;
       this.statusQueue = [''];
       console.log('status blanked, timer dont-give-a-damn');
     }, this.DISPLAY_TIME);
+    
   }
 
   getStatus(): String {

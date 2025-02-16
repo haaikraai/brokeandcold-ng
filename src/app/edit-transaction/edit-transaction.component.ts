@@ -1,81 +1,98 @@
-import { Component, inject, input, output, OutputEmitterRef } from '@angular/core';
+import { Component, inject, input, output, OutputEmitterRef, viewChild, ViewContainerRef } from '@angular/core';
 import { FormsModule, NgForm, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Transaction } from '../transaction';
-import { DatePipe } from '@angular/common';
+import { OmniscientTransaction, Transaction } from '../transaction';
+import { AmodalComponent } from "../amodal/amodal.component";
 
 
 
 @Component({
   standalone: true,
   selector: 'app-edit-transaction',
-  imports: [ReactiveFormsModule, FormsModule, DatePipe],
+  imports: [ReactiveFormsModule, FormsModule, AmodalComponent],
   templateUrl: './edit-transaction.component.html',
   styleUrl: './edit-transaction.component.css',
 })
 export class EditTransactionComponent {
 
   // entryDetails = input<any>({ date: Date.now(), tags: [], amount: 0 } as Transaction, { transform: (entry: Transaction | undefined) => { return formatEntryDate(entry) }});
-  entryDetails = input<Transaction, Transaction>({} as Transaction,
+  entryDetails = input<OmniscientTransaction, OmniscientTransaction>({} as OmniscientTransaction,
     {
       debugName: 'editInput',
       transform: formatEntryDate
     });
 
-  updatedEntry = output<Transaction>()
-  closeForm = output<Boolean>()
+  // keeping this. lol.
+  updatedEntry = output<OmniscientTransaction>({})
+  updateData: OmniscientTransaction = {id: 0, date: 0, tags: [], amount: 0};
+  closeForm = output<Boolean>();
+  viewRef = viewChild('editForm', { read: ViewContainerRef});
+  // waiitoooo:
+  // I'm gonna change the input data now, press cancel, but then the original input has been modified. Fixit.
+  originalData: OmniscientTransaction = {...this.entryDetails()};   // this may need to be a setter. dunno, let's see.
+  isOpen = false;
 
 
-
-
-
-  // private fb = inject(FormBuilder)
-
-  ngOnInit() {
-    console.log('******HERE IN EDIT TRANSACTION NOW*******');
-    console.log(this.entryDetails);
-    console.log(this.updatedEntry);
-
-    this.closeForm.subscribe((val) => {
-      console.log('closeForm has been called with value: ' + val);
-    })
-    // this.editForm = new FormGroup({
-    //   amount: new FormControl(this.entryDetails().amount),
-    //   tags: new FormControl(this.entryDetails().tags),
-    //   date: new FormControl(this.entryDetails().date),
-    //   cancel: new FormControl(),
-    //   sav: new FormControl(),
-    // });
-
-
+  constructor() { 
+    console.log('not much to say, but in editing constructor modal up or not, dont care, still constructing shit');
   }
 
-  constructor() { }
+  ngOnInit() {
+    console.log('IN editing onINit now');
+    this.originalData = {...this.entryDetails()};
+    this.isOpen = true;
+    
+  }
 
 
   onCancelButton() {
-    console.log('pressed cancel. Emiting updatedEntry as well as closeForm')
-    // close modal and emit same as input
-    this.updatedEntry.emit(this.entryDetails());
-    this.closeForm.emit(true);
-    console.log('it has been emitted indeeed.');
+    // this.updatedEntry.emit(this.originalData);
+    console.log('CANCEL paaresssed');
+    this.closeForm.emit(false);
+    this.isOpen = false;
+    // console.log('!!!-----uncomment prev line to actually close the modal. works n all');
   }
 
   onSaveButton() {
     // console.log(this.editForm.value);
     // save stuff
     // super.isOpen.set(false);
+    this.isOpen = false;
+    console.log('Updating from'); console.log(this.originalData);
+    this.updatedEntry.emit(deformatExitData(this.entryDetails()));
+    console.log('to '); console.log(this.entryDetails());
     this.closeForm.emit(true);
   }
 }
 
-function formatEntryDate(entry: Transaction): Transaction {
-  let formatedEntry = entry
-  console.log('transforming input date from: ');
+function formatEntryDate(entry: OmniscientTransaction): OmniscientTransaction {
+  // make a deep copy of entry by values:
+  let formatedEntry = {...entry};
+  // console.log('transforming input date from: ');
   console.log(formatedEntry);
   if (formatedEntry) {
     formatedEntry.date = new Date(formatedEntry.date).toISOString().split('T')[0];
-    console.log('to:');
-    console.log(formatedEntry);
+    // console.log('to:');
+    // console.log(formatedEntry);
+  }
+  return formatedEntry;
+}
+
+/**
+ * Reverse operation of formatEntryDate. Takes an OmniscientTransaction where the date
+ * is a string in 'yyyy-MM-dd' format and returns a new copy of the transaction with
+ * the date as a Date object, preferically a timestamp.
+ * 
+ * Yeah, what this guy said! It's just common decancy man. Retrurn the shape you got it in.
+ * @param {OmniscientTransaction} entry
+ * @returns {OmniscientTransaction}
+ **/
+function deformatExitData(entry: OmniscientTransaction): OmniscientTransaction {
+  // make a deep copy of entry by values:
+  let formatedEntry = {...entry};
+  if (formatedEntry) {
+    formatedEntry.date = Date.parse(<string>formatedEntry.date);
+    // console.log('to FRESH COPY OF Entry saaaying:');
+    // console.log(formatedEntry);
   }
   return formatedEntry;
 }
@@ -83,5 +100,6 @@ function formatEntryDate(entry: Transaction): Transaction {
 function doNotTransform(entry: any) {
   console.log('NOT TRANSFORMING:')
   console.log(entry);
-  return entry
+  return entry;
+
 }

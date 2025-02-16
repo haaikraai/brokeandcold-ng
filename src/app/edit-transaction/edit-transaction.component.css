@@ -2,13 +2,7 @@
 but all-in-all it is just a new component, could be fullscreen or halfscreen
 */
 
-:host {
-    margin: 20px;
-    border: 3px ridge skyblue;
-    padding: 10px;
-}
-
-.modal-backdrop {
+/* .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -33,5 +27,102 @@ but all-in-all it is just a new component, could be fullscreen or halfscreen
     color: white;
     padding: 20px;
     z-index: 1001;
+    cursor: pointer;
+} */
+
+.form-container {
+    /* align-items: center; */
+    width: 90%;
+    /* very specific for my phone */
+    /* width:  300px; */
+    margin: auto;
+    border: 5px groove lightgrey;
+    padding: 7px;
+    /* flex-basis: 70%; */
 }
 
+
+.responsive-form {
+    display: flex;
+    
+    /* align grid content item elements to the right of the container */
+    
+    margin: auto;
+}
+
+.textline {
+    border: 2px dashed red;
+    /* flex-basis: 100%; */
+    font-size: 1.2em;
+    color: #333;
+    margin: 3px;
+    padding: 3px;
+}
+
+.button-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    height: 4em;
+    align-items: stretch;
+    /* align-content: center; */
+    /* text-align: center; */
+    vertical-align: auto;
+}
+
+.better-button {
+    flex-basis: 50%;
+    /* width: 40%; */
+    
+    min-width: 45%;
+    background-color: rgb(83, 142, 142);
+    border: 9px ridge darkslategray;
+    border-radius: 10px;
+    margin: 2px 1px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    /* margin: 0px;     */
+}
+
+
+.entry-row {
+    /* display: grid; */
+    /* note last columns is empty spans to center the fucking thing */
+    /* grid-template-columns: auto auto; */
+    /* gap: 5px 8px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: auto;
+    padding: 5px;
+    max-width: 100%;
+    min-width: 60%;
+    /* width: 200px; */
+    border: 1px dashed red;
+    /* width: 250px; */
+    text-align: right;
+}s
+
+.inputbox {
+    /* margin: 4px; */
+    /* min-width: 70px; */
+    width: 140px;
+    min-width: 60px;
+    max-width: 200px;
+}
+
+label.inputbox {
+    text-align: right;
+    justify-self: right;
+    width: 150px;
+    flex-shrink: 3;
+}
+
+input.inputbox {
+    text-align: left;
+    width: 150px;
+    flex-shrink: 1;
+    justify-self: left;
+}
