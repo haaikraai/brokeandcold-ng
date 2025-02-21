@@ -8,6 +8,7 @@ import { StatusControlService } from '../status-control.service';
 import { AmodalComponent } from '../amodal/amodal.component';
 import { EditTransactionComponent } from "../edit-transaction/edit-transaction.component";
 import { JsonPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-ledger-view',
@@ -26,7 +27,7 @@ export class LedgerViewComponent {
   // Use from beanService - it is there already after all, less chance of errors, less code, less memory. Yeah.
   
   private beanService = inject(BeanServiceService);
-  private ledgerData!: OmniscientTransaction[];
+  // private ledgerData: OmniscientTransaction[] | null = null;
   private _displayedLedger: OmniscientTransaction[] = [];
   private statusControl = inject(StatusControlService);
   // private route = inject
@@ -37,13 +38,17 @@ export class LedgerViewComponent {
   
 
   // editModal: ElementRef<HTMLElement> = ViewChild('#editfo', {read: ElementRef, static: false})
+  
+  // This works. Why am I messing with it? Ah well. Could have made ledgerData a signal and then displayedLedger a computed. But doesn't matter here since updates are checked cause updates completely replace the indeces with new array instance
   get displayedLedger(): OmniscientTransaction[] {
-    this._displayedLedger = this.ledgerData.slice(0, Math.min(this.maxRows(), this.ledgerData.length));
+    this._displayedLedger = this.beanService.ledger.ledgerData.slice(0, Math.min(this.maxRows(), this.beanService.ledger.ledgerData.length));
     return this._displayedLedger;
   }
   set displayedLedger(value: OmniscientTransaction[]) {
     this._displayedLedger = [...value];
   }
+
+  
 
 
   // TODO: Shouldn't use signals as inputs, just bad taste. See: https://www.youtube.com/watch?v=U8YXaWwyd9k
@@ -56,7 +61,7 @@ export class LedgerViewComponent {
   }
 
   ngOnInit() {
-    this.ledgerData = this.beanService.ledger.ledgerData;
+    // this.ledgerData = this.beanService.ledger.ledgerData;
     // this.currentEntry.tags.join()
 
   }
@@ -66,9 +71,10 @@ export class LedgerViewComponent {
   }
 
 
-  editEntry(entry: OmniscientTransaction) {
+  editEntry(entryId: number) {
     this.editingModal = true;
-    this.currentEntry = entry;
+    this.currentEntry = this.beanService.ledger.getItemId(entryId) as OmniscientTransaction;
+
   }
 
 
@@ -90,13 +96,13 @@ export class LedgerViewComponent {
   }
   */
   onSave(newEntry: OmniscientTransaction | null) {
-    console.log('Received new entry from form. Closing modal.');  console.log(newEntry);
-    console.log('reminder of old entry: '); console.log(this.currentEntry);
+    const updatedEntry = JSON.parse(JSON.stringify(newEntry));
     this.editingModal = false;
     if (newEntry) {
       this.currentEntry = newEntry;
       console.log('Received new entry from form and think I changed it. New values are:')
-      console.log(newEntry);
+      console.log(updatedEntry);
+      this.beanService.ledger.updateItem(updatedEntry.id, updatedEntry);
     }
   }
 

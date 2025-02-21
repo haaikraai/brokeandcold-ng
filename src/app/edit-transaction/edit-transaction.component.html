@@ -34,19 +34,19 @@
             <form #editForm="ngForm" (ngSubmit)="onSaveButton()" class="responsive-form">
                 <div class="entry-row">
                     <label class="inputbox" for="amount">Amount</label>
-                    <input class="inputbox" [(ngModel)]="entryDetails().amount" name="amount" type="number" id="amount"
+                    <input class="inputbox" [(ngModel)]="updatedItem.amount" name="amount" type="number" id="amount"
                         required />
                     <!-- Testing: {{ entryDetails().amount }} -->
                 </div>
                 <div class="entry-row">
                     <label class="inputbox" for="date">Date</label>
-                    <input class="inputbox" [(ngModel)]="entryDetails().date" name="date" type="date" id="date" required />
+                    <input class="inputbox" [(ngModel)]="updatedItem.date" name="date" type="date" id="date" required />
                     <!-- Testing: {{ entryDetails().date | date:'yyyy-MM-dd' }} -->
 
                 </div>
                 <div class="entry-row">
                     <label class="inputbox" for="tags">Tags</label>
-                    <input class="inputbox" [(ngModel)]="entryDetails().tags" name="tags" type="text" id="tags"
+                    <input class="inputbox" [(ngModel)]="updatedItem.tags" name="tags" type="text" id="tags"
                         required />
                     <!-- Testing: {{ entryDetails().tags}} -->
                 </div>

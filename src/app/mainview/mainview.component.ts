@@ -14,8 +14,6 @@ export class MainviewComponent {
   private statusControl = inject(StatusControlService)
   public beanService = inject(BeanServiceService)
 
-  // temp var for testing
-  private timer = 0;
 
   get balance(): number {
     return this.beanService.balance;

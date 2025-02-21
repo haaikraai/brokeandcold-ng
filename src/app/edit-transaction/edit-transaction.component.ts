@@ -1,7 +1,8 @@
-import { Component, inject, input, output, OutputEmitterRef, viewChild, ViewContainerRef } from '@angular/core';
-import { FormsModule, NgForm, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, inject, input, output, OutputEmitterRef, viewChild, ViewContainerRef } from '@angular/core';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { OmniscientTransaction, Transaction } from '../transaction';
 import { AmodalComponent } from "../amodal/amodal.component";
+import { BeanServiceService } from '../bean-service.service';
 
 
 
@@ -15,20 +16,29 @@ import { AmodalComponent } from "../amodal/amodal.component";
 export class EditTransactionComponent {
 
   // entryDetails = input<any>({ date: Date.now(), tags: [], amount: 0 } as Transaction, { transform: (entry: Transaction | undefined) => { return formatEntryDate(entry) }});
-  entryDetails = input<OmniscientTransaction, OmniscientTransaction>({} as OmniscientTransaction,
+  private beanService = inject(BeanServiceService);
+  itemId = input<number>(-1);
+
+
+  originalItem = this.beanService.ledger.getItemId(this.itemId()) as OmniscientTransaction;
+  updatedItem: OmniscientTransaction = {id: -1, date: 0, tags: [], amount: 0};
+  
+  // updatedItem = viewChild('editForm', { read: NgForm });
+  /* entryDetails = input<OmniscientTransaction, OmniscientTransaction>({} as OmniscientTransaction,
     {
       debugName: 'editInput',
       transform: formatEntryDate
     });
-
+*/
   // keeping this. lol.
-  updatedEntry = output<OmniscientTransaction>({})
-  updateData: OmniscientTransaction = {id: 0, date: 0, tags: [], amount: 0};
+  entryUpdated = output<OmniscientTransaction>()
+  editSaved = output<OmniscientTransaction>();
+  // updatedItem: OmniscientTransaction = {id: 0, date: 0, tags: [], amount: 0};
   closeForm = output<Boolean>();
-  viewRef = viewChild('editForm', { read: ViewContainerRef});
+  // viewRef = viewChild('editForm', { read: ViewContainerRef});
   // waiitoooo:
   // I'm gonna change the input data now, press cancel, but then the original input has been modified. Fixit.
-  originalData: OmniscientTransaction = {...this.entryDetails()};   // this may need to be a setter. dunno, let's see.
+  // originalData: OmniscientTransaction = {...this.entryDetails()};   // this may need to be a setter. dunno, let's see.
   isOpen = false;
 
 
@@ -37,9 +47,12 @@ export class EditTransactionComponent {
   }
 
   ngOnInit() {
-    console.log('IN editing onINit now');
-    this.originalData = {...this.entryDetails()};
+    console.log('IN editing onINit now. opening up and assigning input to originalItem and editedItem');
+    // this.originalData = {...this.entryDetails()};
     this.isOpen = true;
+    this.originalItem = JSON.parse(JSON.stringify(this.beanService.ledger.getItemId(this.itemId()))) as OmniscientTransaction; //this.beanService.ledger.getItemId(this.itemId());
+    // this.originalItem = JSON.parse(JSON.stringify(this.beanService.ledger.getItemId(this.itemId()))) as OmniscientTransaction; //this.beanService.ledger.getItemId(this.itemId());
+    this.updatedItem = formatEntryDate(this.originalItem);    
     
   }
 
@@ -47,8 +60,9 @@ export class EditTransactionComponent {
   onCancelButton() {
     // this.updatedEntry.emit(this.originalData);
     console.log('CANCEL paaresssed');
+    this.entryUpdated.emit(this.originalItem as OmniscientTransaction);
     this.closeForm.emit(false);
-    this.isOpen = false;
+    // this.isOpen = false;
     // console.log('!!!-----uncomment prev line to actually close the modal. works n all');
   }
 
@@ -57,16 +71,18 @@ export class EditTransactionComponent {
     // save stuff
     // super.isOpen.set(false);
     this.isOpen = false;
-    console.log('Updating from'); console.log(this.originalData);
-    this.updatedEntry.emit(deformatExitData(this.entryDetails()));
-    console.log('to '); console.log(this.entryDetails());
+    console.log('Updating from'); console.log(this.originalItem);
+    
+    this.editSaved.emit(this.updatedItem);
+    // this.entryUpdated.emit(this.updatedItem as OmniscientTransaction);
+    console.log('to '); console.log(this.updatedItem);
     this.closeForm.emit(true);
   }
 }
 
 function formatEntryDate(entry: OmniscientTransaction): OmniscientTransaction {
   // make a deep copy of entry by values:
-  let formatedEntry = {...entry};
+  let formatedEntry = JSON.parse(JSON.stringify(entry));
   // console.log('transforming input date from: ');
   console.log(formatedEntry);
   if (formatedEntry) {
@@ -74,6 +90,7 @@ function formatEntryDate(entry: OmniscientTransaction): OmniscientTransaction {
     // console.log('to:');
     // console.log(formatedEntry);
   }
+  debugger;
   return formatedEntry;
 }
 
