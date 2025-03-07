@@ -1,0 +1,74 @@
+.container {
+    border: 3px ridge purple;
+    width: 96%;
+    padding: 2px;
+    margin: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+    border: 2px solid black;
+    text-align: center;
+    padding: 1px;
+    table-layout: fixed;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* table-layout: fixed; */
+}
+
+
+th {
+    border: 1px solid black;
+    text-align: center;
+
+}
+
+td {
+    border: 1px solid black;
+    padding: 4px auto;
+    text-align: center;
+
+}
+
+
+.edit-row {
+    background: lightgray;
+}
+
+.edit-row:hover {
+    background: rgb(46, 58, 25);
+    color: white;
+    cursor: pointer;
+}
+
+.date-column {
+    width: 150px;
+    padding: 5px;
+}
+
+.tags-column {
+    width: auto;
+    padding: 5px;
+}
+
+.amount-column {
+    width: 100px;
+    padding: 5px;
+}
+
+
+
+td.date-column {
+    text-align: left;
+}
+
+td.tags-column {
+    text-align: center;
+}
+
+td.amount-column {
+    text-align: right;
+}
+

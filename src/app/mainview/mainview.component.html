@@ -1,0 +1,85 @@
+<!-- <body class="container"> -->
+<div class="content-row">
+  <div class="textline">
+    <label><strong>Balance</strong></label>
+  </div>
+  <div class="textline">
+    <label id="balnace">{{ balance }}</label>
+    </div>
+    <div>
+    <label><em>{{ beanService.runningTotal }}</em></label>
+  </div>
+</div>
+<div class="button-bar">
+  <button class="better-button sign-text" id="plus" type="button" (click)="onIncrement()">+</button>
+  <button class="better-button sign-text" id="minus" type="button" (click)="onDecrement()">-</button>
+</div>
+<hr />
+<div>
+  <label id="action">Idle</label>
+  <br />
+  <label id="lastDate">Last Date</label>
+</div>
+<div>Last 5 actions in log:</div>
+
+<table class="ledgercontainer" id="ledgerhistory">
+  <thead class="theaders">
+    <th>Date</th>
+    <th>Tags</th>
+    <th>Amount</th>
+  </thead>
+  <tbody>
+    <!-- <span id="date"></span>  
+        <span id="tags"></span>
+        <span id="Amount"></span> -->
+  </tbody>
+</table>
+
+<!-- Trigger button -->
+
+<button type="button" id="testButton" (click)="onTestButton()">Just test</button>
+
+<!-- <div class="card-header">
+          <h4 class="ion-list-header" color="dark">
+            Last Three Transactions
+          </h4>
+          <ul>
+            <li>Test LIst 1</li>
+            <li>Test LIst 2</li>
+            <li>Test LIst 3</li>
+          </ul>
+     -->
+
+<hr />
+<h3 class="content-row nosign-text">Testing stuff</h3>
+<div class="button-bar">
+  <button class="better-button nosign-text" id="save" type="button" (click)="onSaveButton()">
+    Save
+  </button>
+  <button class="better-button nosign-text" id="load" type="button" (click)="onLoadButton()">
+    Load
+  </button>
+</div>
+<div>Last 5 actions in log:</div>
+
+<table class="ledgercontainer" id="ledgerhistory">
+  <thead class="theaders">
+    <th>Date</th>
+    <th>Tags</th>
+    <th>Amount</th>
+  </thead>
+  <tbody>
+    <!-- <span id="date"></span>  
+        <span id="tags"></span>
+        <span id="Amount"></span> -->
+  </tbody>
+</table>
+
+<!-- Trigger button -->
+
+<button type="button" id="testButton" (click)="onTestButton()">Just test</button>
+<ng-content>
+  <!-- add any testing crap and stuff here -->
+</ng-content>
+
+
