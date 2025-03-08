@@ -19,10 +19,6 @@ table {
 }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
 th {
     border: 1px solid black;
     text-align: center;
@@ -31,19 +27,11 @@ th {
 
 td {
     border: 1px solid black;
-<<<<<<< HEAD
     padding: 4px auto;
-=======
-    padding: 10px auto;
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     text-align: center;
 
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
 .edit-row {
     background: lightgray;
 }
@@ -54,7 +42,6 @@ td {
     cursor: pointer;
 }
 
-<<<<<<< HEAD
 .date-column {
     width: 150px;
     padding: 5px;
@@ -84,19 +71,3 @@ td.amount-column {
     text-align: right;
 }
 
-=======
-table td:nth-child(1) {
-    text-align: left;
-    width: 200px;
-}
-
-table td:nth-child(2) {
-    text-align: center;
-    width: auto;
-}
-
-table td:nth-child(3) {
-    text-align: right;
-    width: 100px
-}
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf

@@ -30,7 +30,6 @@ export class LedgerBook {
     this.ledgerData.push(realEntry);
   }
 
-<<<<<<< HEAD
   /**
    * Updates an existing item in the ledger with new data.
    *
@@ -43,24 +42,17 @@ export class LedgerBook {
    * @returns The difference in 'amount' between the old and new entries. This can be useful to change the summed total balance as well
    */
   updateItem(id: number, entry: Transaction): number {
-=======
-  updateItem(id: number, entry: Transaction) {
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     const realEntry: OmniscientTransaction = {
       id: id,
       ...entry
     };
     const index = this.ledgerData.findIndex(item => item.id == id);
-<<<<<<< HEAD
     const amountChange = realEntry.amount - this.ledgerData[index].amount;
 
     this.ledgerData[index] = JSON.parse(JSON.stringify(realEntry)) as OmniscientTransaction; //realEntry;
     this.saveHistory();
 
     return amountChange
-=======
-    this.ledgerData[index] = JSON.parse(JSON.stringify(realEntry)) as OmniscientTransaction; //realEntry;
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   }
 
 

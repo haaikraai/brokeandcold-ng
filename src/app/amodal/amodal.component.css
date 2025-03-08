@@ -20,10 +20,6 @@
     overflow-x: clip;    
     background-color: rgb(69, 22, 112);
     color: white;
-<<<<<<< HEAD
     padding: 14px;
-=======
-    padding: 20px;
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     z-index: 1001;
 }

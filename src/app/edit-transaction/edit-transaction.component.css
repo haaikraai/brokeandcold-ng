@@ -37,11 +37,7 @@ but all-in-all it is just a new component, could be fullscreen or halfscreen
     /* width:  300px; */
     margin: auto;
     border: 5px groove lightgrey;
-<<<<<<< HEAD
     padding: 4px;
-=======
-    padding: 7px;
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     /* flex-basis: 70%; */
 }
 
@@ -67,11 +63,7 @@ but all-in-all it is just a new component, could be fullscreen or halfscreen
     display: flex;
     flex-direction: row;
     justify-content: stretch;
-<<<<<<< HEAD
     height: 3.3em;
-=======
-    height: 4em;
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     align-items: stretch;
     /* align-content: center; */
     /* text-align: center; */
@@ -84,11 +76,7 @@ but all-in-all it is just a new component, could be fullscreen or halfscreen
     
     min-width: 45%;
     background-color: rgb(83, 142, 142);
-<<<<<<< HEAD
     border: 7px ridge darkslategray;
-=======
-    border: 9px ridge darkslategray;
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     border-radius: 10px;
     margin: 2px 1px;
     flex-grow: 1;
@@ -108,11 +96,7 @@ but all-in-all it is just a new component, could be fullscreen or halfscreen
     align-items: center;
     flex-wrap: wrap;
     margin: auto;
-<<<<<<< HEAD
     padding: 4px;
-=======
-    padding: 5px;
->>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     max-width: 100%;
     min-width: 60%;
     /* width: 200px; */
