@@ -2,6 +2,7 @@
 
 <div class="container">
     <table>
+<<<<<<< HEAD
         <th class="date-column">Date</th>
         <th class="tags-column">Tags</th>
         <th class="amount-column">Amount</th>
@@ -11,6 +12,17 @@
             <td class="date-column">{{ entry.date | date:"mediumDate" }}</td>
             <td class="tags-column">{{ entry.tags.toString() }}</td>
             <td class="amount-column">{{ entry.amount }}</td>
+=======
+        <th>Date</th>
+        <th>Tags</th>
+        <th>Amount</th>
+
+        @for (entry of displayedLedger; track entry.id) {
+        <tr (click)="editEntry(entry.id)" class="edit-row">
+            <td>{{ entry.date | date:"mediumDate" }}</td>
+            <td>{{ entry.tags.toString() }}</td>
+            <td>{{ entry.amount }}</td>
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
         </tr>
         <!-- <ng-container [ngComponentOutlet]="editComponent" [ngComponentOutletInputs]="{entryDetails: currentEntry}"></ng-container> -->
         }

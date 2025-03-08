@@ -18,8 +18,11 @@
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
+<<<<<<< HEAD
     "@capacitor/android": "^7.0.1",
     "@capacitor/core": "^7.0.1",
+=======
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -28,7 +31,10 @@
     "@angular-devkit/build-angular": "^19.0.4",
     "@angular/cli": "^19.0.4",
     "@angular/compiler-cli": "^19.0.0",
+<<<<<<< HEAD
     "@capacitor/cli": "^7.0.1",
+=======
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",

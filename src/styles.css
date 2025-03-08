@@ -29,44 +29,76 @@
 }
 
 /* DARK MODE */
+<<<<<<< HEAD
 .dark-mode {
+=======
+body.dark-mode {
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   background-color: black;
   color: rgb(161, 161, 161);
 }
 
+<<<<<<< HEAD
 .dark-mode .textline {
   color: white;
 }
 
 .dark-mode .better-button {
+=======
+body.dark-mode .textline {
+  color: white;
+}
+
+body.dark-mode .better-button {
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   background-color: rgb(37, 67, 67);
   border: 9px ridge rgb(0, 0, 0);
 }
 
+<<<<<<< HEAD
 .dark-mode .better-button:hover {
+=======
+body.dark-mode .better-button:hover {
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   background-color: rgb(0, 0, 0);
   border: 9px ridge rgb(37, 67, 67);
   color: rgb(163, 186, 186);
 }
 
+<<<<<<< HEAD
 .dark-mode .better-button:active {
+=======
+body.dark-mode .better-button:active {
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   background-color: rgb(0, 0, 0);
   border: 9px ridge rgb(37, 67, 67);
   color: rgb(163, 186, 186);
 }
 
+<<<<<<< HEAD
 .dark-mode .better-button.nosign-text {
+=======
+body.dark-mode .better-button.nosign-text {
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   background-color: rgb(37, 67, 67);
   border: 9px ridge rgb(0, 0, 0);
 }
 
+<<<<<<< HEAD
 .dark-mode .better-button.nosign-text:hover {
+=======
+body.dark-mode .better-button.nosign-text:hover {
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   background-color: rgb(0, 0, 0);
   border: 9px ridge rgb(37, 67, 67);
   color: rgb(163, 186, 186);
 }
 
+<<<<<<< HEAD
 .dark-mode .better-button.nosign-text:active {
+=======
+body.dark-mode .better-button.nosign-text:active {
+>>>>>>> 05e3df9d9d96f0b2d411035bca8304ef7e801caf
   background-color: rgb(0, 0, 0);
   border: 9px ridge rgb(37, 67, 67);
 }
