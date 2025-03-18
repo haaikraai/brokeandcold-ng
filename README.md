@@ -1,59 +1,26 @@
 # BrokeandcoldNg
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
+This is an angular project that compiles to an Android APK using Capacitor? @src contains the Angular code for the project in working.
 
-## Development server
+The idea for the app is an opinionated counter. It can be set for many uses, but for this readme I am going to use it as an idiosyncrathic book-keeping tool (or rather a budgeting tool).
 
-To start a local development server, run:
+It's unique features are:
+1. very rapid counter increments. Eventually it will be a homescreen widget where the user can just tap a button. Any details can be added later.
+*For a money tracker, the user can simply tap a button to increment the counter by a fixed amount (say, $1) and the same can be done for a fixed amount (say, $10). This can quickly be done to record expenses right there in the shop while paying. Details of the transaction can be added later.*
 
-```bash
-ng serve
-```
+2. It automatically updates itself daily.
+*The way it updates is that, suppose your monthly income is $9000, then it will increment itself by $300 every day, dividing your monthly paycheck into daily paychecks. This daily amount carries over, or accumulates. This will allow you to see in an instance whether you are on par with a desire to save. Alternatively, if your balance is in the negatives, you know that you have spent too much already and can be more cautious until your balance is positive again.*
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The future plans include:
+- detailed fine-tuning of the counter behaviour
+- Home screen widgets
+- Better design. I am going for functional now, the design will follow
+- A native Android app written with Jetpack Compose
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+TODO:
+- Add settings page
+- Add a way to set a goal
+- Add a way to set a budget
+- Add a global counter class to be able to use instances and run more than one counter at a time.
+- Add the option to have the counter be a timer/stopwatch instead of discrete increments.
+- Add home screen widgets

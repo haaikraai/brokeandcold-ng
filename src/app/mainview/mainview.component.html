@@ -7,7 +7,9 @@
     <label id="balnace">{{ balance }}</label>
     </div>
     <div>
-    <label><em>{{ beanService.runningTotal }}</em></label>
+    @if (beanService.runningTotal != 0){
+      <label><em>{{ beanService.runningTotal }}</em></label>
+    }
   </div>
 </div>
 <div class="button-bar">

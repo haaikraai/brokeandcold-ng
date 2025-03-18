@@ -12,7 +12,7 @@ export class BeanServiceService {
 
   balanceData = {
     balance: 0,
-    date: new Date(),
+    lastUpdated: 0,
     incAmount: 0,
     decAmount: 0,
     dailyAmount: 0
@@ -70,7 +70,7 @@ export class BeanServiceService {
     const timeTillMidnight = 24 * 60 * 60 - (now.getHours() * 60 * 60 + now.getMinutes() * 60 + now.getSeconds()) + 30;
 
     this.addDailyTimer = setTimeout(() => {
-      this.balanceData.date = now;
+      this.balanceData.lastUpdated = now.getTime();
       this.statusControl.addPriorityStatus('----------MIDNIGHT EVENT!-------------');
       console.log('---------------------------MIDNIGHT HAPPENED ----------------------------------------------');
       this.updateDate();
@@ -136,7 +136,7 @@ export class BeanServiceService {
     console.log('Saving: ', this.balance);
     // THis is automatically done with balance get/set
     // this.balanceData.balance = this.balance;
-    this.balanceData.date = new Date();
+    this.balanceData.lastUpdated = Date.now();
     const data = JSON.stringify(this.balanceData);
     console.log(data);
     // window.localStorage.setItem('balance', this.balance);
@@ -151,7 +151,7 @@ export class BeanServiceService {
     console.log('BeanService loadBalance');
     const defaultValues = {
       balance: 0,
-      date: new Date('2025-02-09'),
+      lastUpdated: 0,
       incAmount: 100,
       decAmount: -25,
       dailyAmount: 11
@@ -183,7 +183,7 @@ export class BeanServiceService {
     // no, only update date when saving
     // const today = new Date();
     const today = new Date();
-    const loadedDate = new Date(this.balanceData.date);
+    const loadedDate = new Date(this.balanceData.lastUpdated);
     this.statusControl.addStatus('Last saved date: ' + loadedDate.toLocaleString());
 
     // get time difference between now and last saved in milliseconds, hours, days.
@@ -220,7 +220,7 @@ export class BeanServiceService {
       // this.statusControl.addStatus(`added income to bal. Total: ${this.runningTotal} - for ${deltaDays} days ellapsed`);
       // balancedata.balance has get/set with balance
       // this.balanceData.balance = this.balance + this.runningTotal;
-      this.balanceData.date = today;
+      this.balanceData.lastUpdated = today.getTime();
       // don't update ballance here. It happens in updateBalance
 
       const entry: Transaction = { date: Date.now(), tags: [`${deltaDays}`, 'daily', 'paid'], amount: this.runningTotal };

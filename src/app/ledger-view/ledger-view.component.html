@@ -8,7 +8,7 @@
 
         @for (entry of displayedLedger; track entry.id) {
         <tr (click)="editEntry(entry.id)" class="edit-row">
-            <td class="date-column">{{ entry.date | date:"mediumDate" }}</td>
+            <td class="date-column">{{ entry.date | date: "dd/MM/yyyy\nHH:mm" }}</td>
             <td class="tags-column">{{ entry.tags.toString() }}</td>
             <td class="amount-column">{{ entry.amount }}</td>
         </tr>

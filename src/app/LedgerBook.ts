@@ -56,9 +56,32 @@ export class LedgerBook {
   }
 
 
-  getItemId(id: number) {
-    return this.ledgerData.find(item => item.id == id);
+  getItemId(id: number): OmniscientTransaction {
+    const trx = <OmniscientTransaction>this.ledgerData.find(item => item.id == id);
 
+    if (id == 0) {
+      const notrx: OmniscientTransaction = {
+        amount: -1,
+        date: 0,
+        tags: ['element','zero'],
+        id: 0
+      };
+      return notrx;
+
+    } else if (trx) {
+      return trx;
+
+    } else if(id > this.ledgerData.length) {
+      const notrx: OmniscientTransaction = {
+        amount: -1,
+        date: 0,
+        tags: ['out','of','range'],
+        id: 0
+      };
+      return notrx;
+    } else {
+      return trx;
+    }
 
     // filter(item => item.id == id)[0];
   }

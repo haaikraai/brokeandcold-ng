@@ -19,5 +19,11 @@ export class TopbarComponent {
     console.log('let us go to settings!!!!');
     this.router.navigate( ['/settings']);
   }
+
+  gotoHistory() {
+    // TODO: implement history page
+    console.log('No history page implemented yet!');
+    // this.router.navigate( ['/history']);
+  }
   
 }

@@ -23,11 +23,10 @@
     </button>
     
   </span>
-  <div><a (click)="gotoSettings()">Settings</a></div>
   <span id="status">{{ statusControl.getStatus() }}</span>
 
   <span class="link-icon" id="historyButton">
-    <button href="./historylog.html">
+    <button href="./historylog.html" (click)="gotoHistory()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         id="Outline"
