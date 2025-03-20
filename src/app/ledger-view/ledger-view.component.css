@@ -13,17 +13,14 @@ table {
     width: 100%;
     margin: auto;
     border: 2px solid black;
-    text-align: center;
     padding: 1px;
     table-layout: fixed;
-    white-space: ;
-    text-overflow: ellipsis;
     /* table-layout: fixed; */
 }
 
 
 th {
-    border: 1px solid black;
+    border: 2px solid rgb(123, 23, 23);
     text-align: center;
 
 }
@@ -58,11 +55,14 @@ td {
     font-weight: bold;
     width: auto;
     padding: 5px;
+    white-space-collapse: collapse;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .amount-column {
     font-weight: bold;
-    width: 50px;
+    width: 60px;
     padding: 5px;
 }
 

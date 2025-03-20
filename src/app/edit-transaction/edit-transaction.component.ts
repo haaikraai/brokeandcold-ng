@@ -31,8 +31,8 @@ export class EditTransactionComponent {
     });
 */
   // keeping this. lol.
-  entryUpdated = output<OmniscientTransaction>()
-  editSaved = output<OmniscientTransaction>();
+  entryUpdated = output<OmniscientTransaction>();
+  // editSaved = output<OmniscientTransaction>();
   // updatedItem: OmniscientTransaction = {id: 0, date: 0, tags: [], amount: 0};
   closeForm = output<Boolean>();
   // viewRef = viewChild('editForm', { read: ViewContainerRef});
@@ -52,7 +52,7 @@ export class EditTransactionComponent {
     this.isOpen = true;
     this.originalItem = JSON.parse(JSON.stringify(this.beanService.ledger.getItemId(this.itemId()))) as OmniscientTransaction; //this.beanService.ledger.getItemId(this.itemId());
     // this.originalItem = JSON.parse(JSON.stringify(this.beanService.ledger.getItemId(this.itemId()))) as OmniscientTransaction; //this.beanService.ledger.getItemId(this.itemId());
-    this.updatedItem = formatEntryDate(this.originalItem);    
+    this.updatedItem = formatEntryDate(this.originalItem);
     
   }
 
@@ -73,7 +73,7 @@ export class EditTransactionComponent {
     this.isOpen = false;
     console.log('Updating from'); console.log(this.originalItem);
     const returnEntry = deformatExitData(this.updatedItem);
-    this.editSaved.emit(returnEntry);
+    this.entryUpdated.emit(returnEntry);
     // this.entryUpdated.emit(this.updatedItem as OmniscientTransaction);
     console.log('to '); console.log(returnEntry);
     this.closeForm.emit(true);

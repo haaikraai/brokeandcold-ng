@@ -19,6 +19,7 @@ import { OmniscientTransaction, Transaction } from './transaction';
 */
 export class LedgerBook {
 
+  maxRows = 10;
   ledgerData: OmniscientTransaction[] = [];
 
   addEntry(entry: Transaction) {
@@ -29,6 +30,19 @@ export class LedgerBook {
     };
     this.ledgerData.push(realEntry);
   }
+
+  private _displayedLedger: OmniscientTransaction[] = [];
+    
+  get displayedLedger(): OmniscientTransaction[] {
+    console.log(this.ledgerData);
+    this._displayedLedger = this.ledgerData.slice(0, Math.min(this.maxRows, this.ledgerData.length));
+    return this._displayedLedger;
+  }
+  
+  set displayedLedger(value: OmniscientTransaction[]) {
+    this._displayedLedger = [...value];
+  }
+  
 
   /**
    * Updates an existing item in the ledger with new data.

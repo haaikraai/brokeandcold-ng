@@ -5,12 +5,12 @@
 
 .container {
   /* align-items: center; */
-  width: 70%;
+  width: 90%;
   /* very specific for my phone */
   /* width:  300px; */
   margin: auto;
-  border: 5px groove lightgrey;
-  padding: 17px;
+  border: 3px groove lightgrey;
+  padding: 7px;
   /* flex-basis: 70%; */
 }
 
@@ -79,9 +79,9 @@
   align-items: center;
   /* flex-basis: 50%; */
   margin: auto;
-  width: 90%;
+  width: 95%;
   border: 3px dashed green;
-  padding: 4px;
+  padding: 2px;
   /* margin: 10px;  */
 }
 
@@ -100,6 +100,8 @@
   justify-content: space-between;
   height: 4.4em;
   align-items: normal;
+  padding: 0px;
+  width: 100%;
   /* align-content: center; */
   /* text-align: center; */
 }
@@ -134,7 +136,7 @@
   justify-content: space-evenly;
   align-items: center;
   margin: auto;
-  padding: 5px;
+  padding: 7px;
   border: 1px dashed red;
   /* width: 250px; */
   text-align: right;

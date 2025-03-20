@@ -6,9 +6,10 @@
         <th class="tags-column">Tags</th>
         <th class="amount-column">Amount</th>
 
-        @for (entry of displayedLedger; track entry.id) {
+        @for (entry of getEntries(); track entry.id) {
         <tr (click)="editEntry(entry.id)" class="edit-row">
             <td class="date-column">{{ entry.date | date: "dd/MM/yyyy\nHH:mm" }}</td>
+            <!-- <td class="date-column"><strong>{{ entry.id }}</strong></td> -->
             <td class="tags-column">{{ entry.tags.toString() }}</td>
             <td class="amount-column">{{ entry.amount }}</td>
         </tr>
@@ -21,16 +22,8 @@
         }
     </table>
     <div><h3>debug data:</h3>
-    <p>{{ displayedLedger | json }}</p></div>
+    <!-- <p>{{ shortLedger() | json }}</p></div> -->
 </div>
 
-<h2>Just editing component</h2>
-<app-edit-transaction *ngIf="editingModal" [itemId]="this.currentEntry.id" (closeForm)="editingModal = false" (editSaved)="onSave($event)"></app-edit-transaction>
-<h3>editing seems to be too true</h3>
-<!-- <ng-container [ngComponentOutlet]="editComponent" [ngComponentOutletInputs]="{entryDetails: currentEntry}"></ng-container>] -->
-<!-- <app-amodal>
-    <div>
-        <h3>theoretical projected content</h3>
-        <app-edit-transaction #editComponentVar [entryDetails]="currentEntry" (closeForm)="editingModal = false" (updatedEntry)="onSave($event)"></app-edit-transaction>
-    </div>
-</app-amodal> -->
+<!-- This is the modal. Bit unprofessional, but fuck hell it works for this tiny app -->
+<app-edit-transaction *ngIf="editingModal" [itemId]="this.currentEntry.id" (closeForm)="editingModal = false" (entryUpdated)="onSave($event)"></app-edit-transaction>

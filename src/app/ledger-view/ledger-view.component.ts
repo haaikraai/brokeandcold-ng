@@ -1,16 +1,15 @@
 
-import { Component, inject, input, Type } from '@angular/core';
+import { Component, inject, input, signal, Type, OnChanges } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { BeanServiceService } from '../bean-service.service';
 import { OmniscientTransaction, Transaction } from '../transaction';
-import { DatePipe } from '@angular/common';
 import { AmodalComponent } from '../amodal/amodal.component';
 import { EditTransactionComponent } from "../edit-transaction/edit-transaction.component";
-import { JsonPipe } from '@angular/common';
+import { DatePipe, JsonPipe, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-ledger-view',
-  imports: [DatePipe, EditTransactionComponent, JsonPipe, NgIf],
+  imports: [EditTransactionComponent, JsonPipe, NgIf, DatePipe],
   templateUrl: './ledger-view.component.html',
   styleUrl: './ledger-view.component.css',
 })
@@ -26,23 +25,21 @@ export class LedgerViewComponent {
   
   private beanService = inject(BeanServiceService);
   // private ledgerData: OmniscientTransaction[] | null = null;
-  private _displayedLedger: OmniscientTransaction[] = [];
+  shortLedger = signal<OmniscientTransaction[]>(this.beanService.ledger.displayedLedger);
+  ledgerRef = this.beanService.ledger.ledgerData;
+  
   
   // private route = inject
   // private comp = NgComponentOutlet
   editingModal = false;
-  protected editComponent: Type<AmodalComponent> | Type<EditTransactionComponent> | null = EditTransactionComponent;
+  // protected editComponent: Type<AmodalComponent> | Type<EditTransactionComponent> | null = EditTransactionComponent;
   
   
-
+  // shortLedger = () => {
+  //   return this.beanService.ledger.ledgerData.slice(0, Math.min(8, this.beanService.ledger.ledgerData.length)).reverse()
+  // }
   // editModal: ElementRef<HTMLElement> = ViewChild('#editfo', {read: ElementRef, static: false})
-  get displayedLedger(): OmniscientTransaction[] {
-    this._displayedLedger = this.beanService.ledger.ledgerData.slice(0, Math.min(this.maxRows(), this.beanService.ledger.ledgerData.length)).reverse();
-    return this._displayedLedger;
-  }
-  set displayedLedger(value: OmniscientTransaction[]) {
-    this._displayedLedger = [...value];
-  }
+  
 
   
 
@@ -62,15 +59,55 @@ export class LedgerViewComponent {
 
   }
 
-
+  
 
   editEntry(entryId: number) {
     this.editingModal = true;
     this.currentEntry = this.beanService.ledger.getItemId(entryId) as OmniscientTransaction;
-
+    const currentVersion = this.shortLedger();
+    // this.shortLedger.update((ledger) => {
+    //   currentVersion[ledger.findIndex((ledger) => {ledger.id === entryId})] = 
+    // })
   }
 
+  
 
+
+  onSave(newEntry: OmniscientTransaction | null) {
+    const updatedEntry = JSON.parse(JSON.stringify(newEntry));
+    this.editingModal = false;
+    
+    if (updatedEntry) {
+      
+      this.currentEntry = <OmniscientTransaction>newEntry;
+      console.log('Received new entry from form and think I changed it. New values are:')
+      console.log(updatedEntry);
+      const changedTransaction: Transaction = {
+        date: Date.now(),
+        tags: ['Cooked','the','books'],
+        amount: this.beanService.ledger.updateItem(updatedEntry.id, updatedEntry)        
+      } 
+      // this.beanService.balance += changedTransaction.amount;
+      this.beanService.updateBalance(changedTransaction);
+    }
+    this.ledgerRef = this.beanService.ledger.ledgerData;
+    this.shortLedger.set(this.beanService.ledger.displayedLedger);
+
+    this.beanService.saveBalance();
+    console.log('Post save values:');
+    console.log(this.ledgerRef);
+    console.log(this.shortLedger());
+  }
+
+  /*
+    Literally just to get the reversed list for the for looop
+  */
+  getEntries() {
+    // console.log('upside down');
+    const topsyturvy = this.ledgerRef.slice().reverse();
+    // console.log(topsyturvy);
+    return topsyturvy;
+  }
 
   /*
   BRING MODAL BACK. USING A ROUTER FOR NOW, TILL it works
@@ -88,21 +125,5 @@ export class LedgerViewComponent {
     // this.statusControl.addStatus('Editing: ' + entry.date);
   }
   */
-  onSave(newEntry: OmniscientTransaction | null) {
-    const updatedEntry = JSON.parse(JSON.stringify(newEntry));
-    this.editingModal = false;
-    if (updatedEntry) {
-      this.currentEntry = <OmniscientTransaction>newEntry;
-      console.log('Received new entry from form and think I changed it. New values are:')
-      console.log(updatedEntry);
-      const changedTrancaction: Transaction = {
-        date: Date.now(),
-        tags: ['Cooked','the','books'],
-        amount: this.beanService.ledger.updateItem(updatedEntry.id, updatedEntry)        
-      } 
-      this.beanService.balance += changedTrancaction.amount;
-      this.beanService.updateBalance(changedTrancaction);
-    }
-  }
-
+  
 }

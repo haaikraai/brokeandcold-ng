@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { BeanServiceService } from '../bean-service.service';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, NgForm, NonNullableFormBuilder } from '@angular/forms';
-import { OmniscientTransaction } from '../transaction';
+import { OmniscientTransaction, Transaction } from '../transaction';
 import { iif } from 'rxjs';
 
 @Component({
@@ -77,6 +77,16 @@ export class SettingspageComponent {
     
     
     this.beanService.balanceData = toSaveData;
+    if (toSaveData.balance != originalData.balance) {
+      console.log('changed balance. put on record for tax compliance');
+      const entry: Transaction = {
+        date: Date.now(),
+        tags: ['preventing','tax','evasion','due','diligence'],
+        amount: toSaveData.balance - originalData.balance
+      }
+      this.beanService.ledger.addEntry(entry);
+    }
+
     if (toSaveData.lastUpdated != originalData.lastUpdated) {
       this.beanService.balanceData.lastUpdated = originalData.lastUpdated;
       this.beanService.updateDate();

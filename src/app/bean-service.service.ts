@@ -131,7 +131,7 @@ export class BeanServiceService {
     }
   }
 
-  saveBalance(msg: string) {
+  saveBalance(msg: string = '') {
     console.log('BeanService saveBalance');
     console.log('Saving: ', this.balance);
     // THis is automatically done with balance get/set

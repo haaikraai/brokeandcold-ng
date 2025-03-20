@@ -1,62 +1,27 @@
+<app-amodal>
+    <div class="form-container">
+        <form #editForm="ngForm" (ngSubmit)="onSaveButton()" class="responsive-form">
+            <div class="entry-row">
+                <label class="inputbox" for="amount">Amount</label>
+                <input class="inputbox" [(ngModel)]="updatedItem.amount" name="amount" type="number" id="amount"
+                    required />
+                <!-- Testing: {{ entryDetails().amount }} -->
+            </div>
+            <div class="entry-row">
+                <label class="inputbox" for="date">Date</label>
+                <input class="inputbox" [(ngModel)]="updatedItem.date" name="date" type="date" id="date" required />
+                <!-- Testing: {{ entryDetails().date | date:'yyyy-MM-dd' }} -->
 
-
-        
-<!-- <div class="form-container">
-    <form [formGroup]="editForm" (ngSubmit)="onSaveButton()" class="responsive-form">
-        <div class="entry-row">
-            <label class="inputbox" for="amount">Amount</label>
-            <input class="inputbox" formControlName="amount" type="number" id="amount" />
-        </div>
-        <div class="entry-row">
-            <label class="inputbox" for="date">Date</label>
-            <input class="inputbox" formControlName="date" type="date" id="date" />
-        </div>
-        <div class="entry-row">
-            <label class="inputbox" for="tags">Tags</label>
-            <input class="inputbox" formControlName="tags" type="text" id="tags" />
-        </div>
-        <div class="button-bar">
-            <button class="better-button" type="submit" (click)="onSaveButton()">Save</button>
-            <button class="better-button" type="button" (click)="onCancelButton()">Cancel</button>
-        </div>
-    </form>
-</div> -->
-
-
-<!-- <div class="modal-backdrop">
-    <div class="amodal">
-        <h2>Real stuff</h2> -->
-
-        
-
-        <app-amodal>
-        <div class="form-container">
-            <form #editForm="ngForm" (ngSubmit)="onSaveButton()" class="responsive-form">
-                <div class="entry-row">
-                    <label class="inputbox" for="amount">Amount</label>
-                    <input class="inputbox" [(ngModel)]="updatedItem.amount" name="amount" type="number" id="amount"
-                        required />
-                    <!-- Testing: {{ entryDetails().amount }} -->
-                </div>
-                <div class="entry-row">
-                    <label class="inputbox" for="date">Date</label>
-                    <input class="inputbox" [(ngModel)]="updatedItem.date" name="date" type="date" id="date" required />
-                    <!-- Testing: {{ entryDetails().date | date:'yyyy-MM-dd' }} -->
-
-                </div>
-                <div class="entry-row">
-                    <label class="inputbox" for="tags">Tags</label>
-                    <input class="inputbox" [(ngModel)]="updatedItem.tags" name="tags" type="text" id="tags"
-                        required />
-                    <!-- Testing: {{ entryDetails().tags}} -->
-                </div>
-                <div class="button-bar">
-                    <button class="better-button" type="submit" (click)="onSaveButton()">Save</button>
-                    <button class="better-button" type="button" (click)="onCancelButton()">Cancel</button>
-                </div>
-            </form>
-        </div>            
-        </app-amodal>
-
-    <!-- </div>
-</div> -->
+            </div>
+            <div class="entry-row">
+                <label class="inputbox" for="tags">Tags</label>
+                <input class="inputbox" [(ngModel)]="updatedItem.tags" name="tags" type="text" id="tags" required />
+                <!-- Testing: {{ entryDetails().tags}} -->
+            </div>
+            <div class="button-bar">
+                <button class="better-button" type="submit" (click)="onSaveButton()">Save</button>
+                <button class="better-button" type="button" (click)="onCancelButton()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</app-amodal>
