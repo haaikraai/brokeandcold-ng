@@ -16,11 +16,13 @@ The future plans include:
 - Home screen widgets
 - Better design. I am going for functional now, the design will follow
 - A native Android app written with Jetpack Compose
+- Export to CSV or view the statistics in app
 
 TODO:
-- Add settings page
 - Add a way to set a goal
 - Add a way to set a budget
 - Add a global counter class to be able to use instances and run more than one counter at a time.
 - Add the option to have the counter be a timer/stopwatch instead of discrete increments.
 - Add home screen widgets
+- Option to reset monthly
+- allow multiple counters for different things
