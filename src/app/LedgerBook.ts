@@ -45,6 +45,7 @@ export class LedgerBook {
   
 
   /**
+   * DEPRECATED: This method fits better in the calling component since it is for more niche cases.
    * Updates an existing item in the ledger with new data.
    *
    * This function finds an item in the ledger based on its ID, replaces it with the provided

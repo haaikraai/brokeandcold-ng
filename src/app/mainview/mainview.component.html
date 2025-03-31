@@ -10,6 +10,10 @@
     @if (beanService.runningTotal != 0){
       <label><em>{{ beanService.runningTotal }}</em></label>
     }
+    @else {
+      <!-- To keep the buttons stationary, otherwise it moves while the user is clicking -->
+      <label><em> </em></label>
+    }
   </div>
 </div>
 <div class="button-bar">

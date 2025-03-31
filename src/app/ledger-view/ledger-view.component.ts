@@ -9,7 +9,7 @@ import { DatePipe, JsonPipe, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-ledger-view',
-  imports: [EditTransactionComponent, JsonPipe, NgIf, DatePipe],
+  imports: [EditTransactionComponent, NgIf, DatePipe],
   templateUrl: './ledger-view.component.html',
   styleUrl: './ledger-view.component.css',
 })
@@ -73,31 +73,75 @@ export class LedgerViewComponent {
   
 
 
-  onSave(newEntry: OmniscientTransaction | null) {
-    const updatedEntry = JSON.parse(JSON.stringify(newEntry));
+  onSave(newEntry: OmniscientTransaction) {
+    const originalEntry: OmniscientTransaction = JSON.parse(JSON.stringify(this.currentEntry));
+    let updatedEntry: OmniscientTransaction = JSON.parse(JSON.stringify(newEntry));
     this.editingModal = false;
     
-    if (updatedEntry) {
-      
+    if (updatedEntry && originalEntry) {  
+      // This varialbe isn't really used anymore. Should delete it sometime.
       this.currentEntry = <OmniscientTransaction>newEntry;
+      
       console.log('Received new entry from form and think I changed it. New values are:')
       console.log(updatedEntry);
-      const changedTransaction: Transaction = {
-        date: Date.now(),
-        tags: ['Cooked','the','books'],
-        amount: this.beanService.ledger.updateItem(updatedEntry.id, updatedEntry)        
-      } 
-      // this.beanService.balance += changedTransaction.amount;
-      this.beanService.updateBalance(changedTransaction);
-    }
-    this.ledgerRef = this.beanService.ledger.ledgerData;
-    this.shortLedger.set(this.beanService.ledger.displayedLedger);
 
-    this.beanService.saveBalance();
-    console.log('Post save values:');
-    console.log(this.ledgerRef);
-    console.log(this.shortLedger());
-  }
+      // Check for balance change, then enter this into the books
+
+      if (updatedEntry.amount != originalEntry.amount) {
+        const amountDiff = updatedEntry.amount - originalEntry.amount;
+        
+        const updatedTransaction: Transaction = {
+          date: Date.now(),
+          tags: ['Cooked','the','books'],
+          amount: amountDiff
+        };
+        
+        this.beanService.updateBalance(updatedTransaction);
+      }
+
+      // Check for date change then recalculate the daily amounts paid.
+
+      // updateItem(id: number, entry: Transaction): number {
+      if (updatedEntry.date != originalEntry.date) {
+        if (String.length > 0) {
+          console.log(`Converting form date string: ${newEntry.date}`);
+          updatedEntry.date = parseInt(<string>updatedEntry.date);
+          console.log(`To a epoch number ${updatedEntry.date}`);
+        } else {
+          updatedEntry.date = -1;
+        }
+        this.beanService.balanceData.lastUpdated = updatedEntry.date;
+
+        updatedEntry = {
+          id: updatedEntry.id,
+          date: updatedEntry.date,
+          amount: updatedEntry.amount,
+          tags: updatedEntry.tags
+        }
+
+      }
+      
+      const index = this.beanService.ledger.ledgerData.findIndex(item => item.id == this.currentEntry.id);
+      
+  
+      this.beanService.ledger.ledgerData[index] = JSON.parse(JSON.stringify(updatedEntry)) as OmniscientTransaction; //realEntry;
+      this.beanService.ledger.saveHistory();
+    }
+      
+      
+      // this.beanService.balance += changedTransaction.amount;
+      this.beanService.updateBalance(updatedEntry);
+      this.beanService.saveBalance();
+    }
+
+  //   this.ledgerRef = this.beanService.ledger.ledgerData;
+  //   this.shortLedger.set(this.beanService.ledger.displayedLedger);
+
+  //   this.beanService.saveBalance();
+  //   console.log('Post save values:');
+  //   console.log(this.ledgerRef);
+  //   console.log(this.shortLedger());
+  // }
 
   /*
     Literally just to get the reversed list for the for looop

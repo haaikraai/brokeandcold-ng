@@ -105,6 +105,8 @@ export class BeanServiceService {
   /*
   @param {Transaction | Number} entry
   @description updates the balance by adding the amount of the passed transaction. A number is just straight added to the balance.
+  
+  WARNING: this both updates the balance value and also adds the appropriate record into
 
   In general a transaction is prefered over a number to be logged to the ledger. A number on its own is just added to the balance and there for developer convenience. Even changing an incorrect balance due to a typo should ideally have a transaction to log the reasons for the change.
   */
@@ -126,6 +128,11 @@ export class BeanServiceService {
 
       this.ledger.addEntry(entry);
       this.ledger.saveHistory();
+      
+
+      console.log(typeof entry.tags);
+      console.log(entry.tags);
+      
       this.saveBalance(entry.tags.join(' '));
       this.runningTotal = 0;
     }
@@ -182,8 +189,10 @@ export class BeanServiceService {
     console.log('BeanService pay daily allowances');
     // no, only update date when saving
     // const today = new Date();
-    const today = new Date();
-    const loadedDate = new Date(this.balanceData.lastUpdated);
+    // the new Date(..toDateString()) is there to truncate the time. Both days' times should be equal to accurately calculate the days between the two.
+    const today = new Date(new Date().toDateString())
+    const loadedDate = new Date(new Date(this.balanceData.lastUpdated).toDateString());
+    
     this.statusControl.addStatus('Last saved date: ' + loadedDate.toLocaleString());
 
     // get time difference between now and last saved in milliseconds, hours, days.

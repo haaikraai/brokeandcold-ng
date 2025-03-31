@@ -6,6 +6,7 @@
     width: 96%;
     padding: 2px;
     margin: auto;
+    font-size: 0.9rem;
 }
 
 table {
@@ -43,7 +44,7 @@ td {
 }
 
 .date-column {
-    font-size: 0.9rem;
+    /* font-size: 0.9rem; */
     font-weight: normal;
     font-weight: bold;
     width: 90px;
@@ -51,7 +52,7 @@ td {
 }
 
 .tags-column {
-    font-size: 1.1rem;
+    /* font-size: 1.1rem; */
     font-weight: bold;
     width: auto;
     padding: 5px;
@@ -62,7 +63,7 @@ td {
 
 .amount-column {
     font-weight: bold;
-    width: 60px;
+    width: 70px;
     padding: 5px;
 }
 
