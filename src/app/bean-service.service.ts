@@ -151,10 +151,10 @@ export class BeanServiceService {
     console.log('BeanService loadBalance');
     const defaultValues = {
       balance: 0,
-      lastUpdated: 0,
+      lastUpdated: Date.parse('2025-04-09'),
       incAmount: 100,
       decAmount: -25,
-      dailyAmount: 11
+      dailyAmount: 300
     };
     // THIS LINE IS A FLAG TO PREVENT LOADING DATA AND USE DEFAULT INSTEAD
 
@@ -187,23 +187,37 @@ export class BeanServiceService {
     this.statusControl.addStatus('Last saved date: ' + loadedDate.toLocaleString());
 
     // get time difference between now and last saved in milliseconds, hours, days.
-    const deltaTime = today.getTime() - loadedDate.getTime();
-    const deltaHours = Math.floor(deltaTime / 1000 / 60 / 60);
+    // const deltaTime = today.getTime() - loadedDate.getTime();
+    // const deltaHours = Math.floor(deltaTime / 1000 / 60 / 60);
 
     // Check only if a new day happened, not if 24 hours passed. If so, then do the math. Could also have used modulus
-    const newDay = (today.toDateString() !== loadedDate.toDateString())
+    // const newDay = (today.toDateString() !== loadedDate.toDateString())
     // calculate days that crossed midnight but less than 24 hours, hence the +1
-    const deltaDays = newDay ? Math.floor(deltaTime / 1000 / 60 / 60 / 24) + Number(newDay) : 0;
+    // const deltaDays = newDay ? Math.floor(deltaTime / 1000 / 60 / 60 / 24) + Number(newDay) : 0;
 
+    function calendarDaysElapsed(date1: Date,date2:Date):number {
+      const d1 = new Date(date1).valueOf();
+      const d2 = new Date(date2).valueOf();
+      const diff = Math.abs(d2-d1);
+      const oneDay = 24*60*60*1000;
+      const days = Math.floor(diff/oneDay);
+      return days;
+    }
 
+    const deltaDays = calendarDaysElapsed(today,loadedDate);
+    console.log(`New calculations, days ellapsed: ${deltaDays}`)
+    // const delta = new Date(today.valueOf() - loadedDate.valueOf())
+    // console.log(`New delta: ${delta.valueOf()}`)
+    // const deltaDays = delta.valueOf()/1000/60/60/24
+    // console.log(`New calc = ${deltaDays} days (must floor, this for debug)`)
     // deltaDays += Number(newDay).valueOf();
 
     console.log('Calculations:');
-    console.log(deltaTime + ' = hours: ' + deltaHours + '; days: ' + deltaDays);
+    // console.log(deltaTime + ' = hours: ' + deltaHours + '; days: ' + deltaDays);
 
     // SAVE backup if more than 24 hours passed:
     // if (deltaHours >= 24) {
-    if (false) {
+    if (deltaDays > 1) {
       
       // fuck me sweetly b'tween thee ass cheecks - I think this messed up loading here causes the double entry values. Maybe not. But balance doubles that is true.
       // TODO here hi how does balance go to 2000? and then anoth nah wait....
@@ -214,10 +228,10 @@ export class BeanServiceService {
     // use already calculated days ellapsed to get new balance
     // Math.floor - do not want fractional salaries
 
-    if (newDay) {         //------> waited? good. cause here it gets 2000
+    if (deltaDays > 1) {         //------> waited? good. cause here it gets 2000
 
       this.runningTotal = deltaDays * this.balanceData.dailyAmount;
-      // this.statusControl.addStatus(`added income to bal. Total: ${this.runningTotal} - for ${deltaDays} days ellapsed`);
+      // this.statusControl.addStatus(`added income to bal. Total: ${this.runningTotal} - for ${deltaDays} day``````s ellapsed`);
       // balancedata.balance has get/set with balance
       // this.balanceData.balance = this.balance + this.runningTotal;
       this.balanceData.lastUpdated = today.getTime();

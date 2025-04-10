@@ -133,18 +133,21 @@
   display: flex;
   flex-flow: row wrap;
   /* note last columns is empty spans to center the fucking thing */
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   margin: auto;
-  padding: 7px;
+  padding: 10px;
   border: 1px dashed red;
   /* width: 250px; */
   text-align: right;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 label {
   align-self: flex-end;
   text-align: right;
+  padding: 4px;
   width: 100px;
 }
 
@@ -152,6 +155,7 @@ label {
   align-self: flex-start;
   text-align: right;
   width: 100px;
+  padding: 4px;
 }
 
 button:hover {
