@@ -182,6 +182,7 @@ export class BeanServiceService {
     console.log('BeanService pay daily allowances');
     // no, only update date when saving
     // const today = new Date();
+    // new Date(d.toDateString()) -> truncates the time so that today - yesterday is always 1 calendar day, no matter the hours.
     const today = new Date();
     const loadedDate = new Date(this.balanceData.lastUpdated);
     this.statusControl.addStatus('Last saved date: ' + loadedDate.toLocaleString());
@@ -196,8 +197,8 @@ export class BeanServiceService {
     // const deltaDays = newDay ? Math.floor(deltaTime / 1000 / 60 / 60 / 24) + Number(newDay) : 0;
 
     function calendarDaysElapsed(date1: Date,date2:Date):number {
-      const d1 = new Date(date1).valueOf();
-      const d2 = new Date(date2).valueOf();
+      const d1 = new Date(date1.toDateString()).valueOf();
+      const d2 = new Date(date2.toDateString()).valueOf();
       const diff = Math.abs(d2-d1);
       const oneDay = 24*60*60*1000;
       const days = Math.floor(diff/oneDay);
