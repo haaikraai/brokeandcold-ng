@@ -213,7 +213,7 @@ export class BeanServiceService {
     // console.log(`New calc = ${deltaDays} days (must floor, this for debug)`)
     // deltaDays += Number(newDay).valueOf();
 
-    console.log('Calculations:');
+    
     // console.log(deltaTime + ' = hours: ' + deltaHours + '; days: ' + deltaDays);
 
     // SAVE backup if more than 24 hours passed:
@@ -226,10 +226,7 @@ export class BeanServiceService {
       this.statusControl.addStatus('Backed up data');
     }
 
-    // use already calculated days ellapsed to get new balance
-    // Math.floor - do not want fractional salaries
-
-    if (deltaDays > 1) {         //------> waited? good. cause here it gets 2000
+    if (deltaDays >= 1) {         //------> waited? good. cause here it gets 2000
 
       this.runningTotal = deltaDays * this.balanceData.dailyAmount;
       // this.statusControl.addStatus(`added income to bal. Total: ${this.runningTotal} - for ${deltaDays} day``````s ellapsed`);
