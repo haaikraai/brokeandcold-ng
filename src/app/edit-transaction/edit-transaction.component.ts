@@ -66,12 +66,23 @@ export class EditTransactionComponent {
     // console.log('!!!-----uncomment prev line to actually close the modal. works n all');
   }
 
+  
   onSaveButton() {
     // console.log(this.editForm.value);
     // save stuff
     // super.isOpen.set(false);
     this.isOpen = false;
     console.log('Updating from'); console.log(this.originalItem);
+    this.updatedItem.date = new Date(this.updatedItem.date);
+    this.originalItem.date = new Date(this.originalItem.date);
+    
+    // just checking they are both defined
+    if (this.updatedItem.date && this.originalItem.date) {
+      this.updatedItem.date  = new Date(`${this.updatedItem.date.toDateString()} ${this.originalItem.date.toTimeString()}`);
+    } else {
+      console.log('not a date recieved');
+      console.log('is this even a problem? String should be just fine')
+    }
     const returnEntry = deformatExitData(this.updatedItem);
     this.entryUpdated.emit(returnEntry);
     // this.entryUpdated.emit(this.updatedItem as OmniscientTransaction);
@@ -79,7 +90,10 @@ export class EditTransactionComponent {
     this.closeForm.emit(true);
   }
 }
-
+/*
+  Convert a OmniscientTransaction to a date string in 'yyyy-MM-dd' format.
+  This is useful for displaying the date in an html date input field.
+*/
 function formatEntryDate(entry: OmniscientTransaction): OmniscientTransaction {
   // make a deep copy of entry by values:
   let formatedEntry = JSON.parse(JSON.stringify(entry));
@@ -97,7 +111,11 @@ function formatEntryDate(entry: OmniscientTransaction): OmniscientTransaction {
 /**
  * Reverse operation of formatEntryDate. Takes an OmniscientTransaction where the date
  * is a string in 'yyyy-MM-dd' format and returns a new copy of the transaction with
- * the date as a Date object, preferically a timestamp.
+ * the date as a Date object.
+ * 
+ * The timestamp is returned from the original unedited entry. Otherwise it will automatically be set to 00:00 UTC.
+ * 
+ * So only the date changes, and the timestamp remains the same. If you want to change the timestamp, you can do it yourself.
  * 
  * Yeah, what this guy said! It's just common decancy man. Retrurn the shape you got it in.
  * @param {OmniscientTransaction} entry
