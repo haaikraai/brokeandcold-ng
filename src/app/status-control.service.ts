@@ -28,9 +28,6 @@ export class StatusControlService {
     // const mustFinishBy = startedAt + 5000;
     // const timeRemaining = mustFinishBy - Date.now();
     
-    console.log('Show status called:');
-    console.log(this.statusQueue);  
-
     if (!this.statusActive) {
       this.status = this.statusQueue.shift() ?? "";
       if (this.status.length > 0) {

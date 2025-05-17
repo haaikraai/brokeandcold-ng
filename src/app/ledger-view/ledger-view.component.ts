@@ -9,7 +9,7 @@ import { DatePipe, JsonPipe, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-ledger-view',
-  imports: [EditTransactionComponent, JsonPipe, NgIf, DatePipe],
+  imports: [EditTransactionComponent, NgIf, DatePipe],
   templateUrl: './ledger-view.component.html',
   styleUrl: './ledger-view.component.css',
 })

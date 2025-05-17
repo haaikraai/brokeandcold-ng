@@ -8,22 +8,25 @@
 
         @for (entry of getEntries(); track entry.id) {
         <tr (click)="editEntry(entry.id)" class="edit-row">
-            <td class="date-column">{{ entry.date | date: "dd/MM/yyyy\nHH:mm" }}</td>
+            <td class="date-column">{{ entry.date.toString()| date: "dd/MM/yyyy\nHH:mm" }}</td>
             <!-- <td class="date-column"><strong>{{ entry.id }}</strong></td> -->
             <td class="tags-column">{{ entry.tags.toString() }}</td>
             <td class="amount-column">{{ entry.amount }}</td>
         </tr>
+        <!-- this shit works. Just looks like kak at current implementation -->
         <!-- <ng-container [ngComponentOutlet]="editComponent" [ngComponentOutletInputs]="{entryDetails: currentEntry}"></ng-container> -->
         }
         @empty {
         <tr class="edit-row">
             <td colspan="3">Listingy fucka, you haven't done nothing with your moneys</td>
         </tr>
+        <tr class="edit-row">
+            <td colspan="3">Contribute to the economy. Money must flow</td>
+        </tr>
         }
     </table>
-    <div><h3>debug data:</h3>
-    <!-- <p>{{ shortLedger() | json }}</p></div> -->
 </div>
 
 <!-- This is the modal. Bit unprofessional, but fuck hell it works for this tiny app -->
+ <!-- Bit weird rather. I mean the thing that is in the modal calls the modal. So the child instansiates the parent in order to be its child. That's like going to your dad asking him to have sex with your mom  -->
 <app-edit-transaction *ngIf="editingModal" [itemId]="this.currentEntry.id" (closeForm)="editingModal = false" (entryUpdated)="onSave($event)"></app-edit-transaction>

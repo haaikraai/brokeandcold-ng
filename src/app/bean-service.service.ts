@@ -82,8 +82,6 @@ export class BeanServiceService {
     console.log('finished loading');
     this.updateDate();
     this.updateBalance();
-    // this.saveBalance("Loaded balance from saved file and applied daily allowances");
-    // this.ledger.saveHistory();
   }
 
   increment() {
