@@ -28,5 +28,6 @@
 </div>
 
 <!-- This is the modal. Bit unprofessional, but fuck hell it works for this tiny app -->
- <!-- Bit weird rather. I mean the thing that is in the modal calls the modal. So the child instansiates the parent in order to be its child. That's like going to your dad asking him to have sex with your mom  -->
+ <!-- Bit weird rather. I mean the thing that is in the modal calls the modal. So the child instansiates the parent in order to be its child. That's like going to your dad asking him to have sex with your mom...the weird part being because you want to exist. Wtf man, don't you know how full of shit this world is. Unborn children asking their parents to fuck and what not.
+ -->
 <app-edit-transaction *ngIf="editingModal" [itemId]="this.currentEntry.id" (closeForm)="editingModal = false" (entryUpdated)="onSave($event)"></app-edit-transaction>

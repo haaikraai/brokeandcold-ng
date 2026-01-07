@@ -82,12 +82,19 @@ export class LedgerViewComponent {
       this.currentEntry = <OmniscientTransaction>newEntry;
       console.log('Received new entry from form and think I changed it. New values are:')
       console.log(updatedEntry);
+      
       const changedTransaction: Transaction = {
         date: Date.now(),
         tags: ['Cooked','the','books'],
         amount: this.beanService.ledger.updateItem(updatedEntry.id, updatedEntry)        
       } 
       // this.beanService.balance += changedTransaction.amount;
+
+      console.log('Updating the balance....should update the date first')
+      
+      // todo: determine date change and then apply daily increments to it.
+      this.beanService.balanceData.lastUpdated = new Date(changedTransaction.date).valueOf();
+      this.beanService.updateDate();
       this.beanService.updateBalance(changedTransaction);
     }
     this.ledgerRef = this.beanService.ledger.ledgerData;

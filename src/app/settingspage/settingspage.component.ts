@@ -2,7 +2,6 @@ import { Component, inject, input } from '@angular/core';
 import { BeanServiceService } from '../bean-service.service';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, NgForm, NonNullableFormBuilder } from '@angular/forms';
 import { OmniscientTransaction, Transaction } from '../transaction';
-import { iif } from 'rxjs';
 
 @Component({
   selector: 'app-settingspage',

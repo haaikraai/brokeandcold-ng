@@ -1,0 +1,25 @@
+<h1 style="text-align: center;">Data Manager</h1>
+
+<div class="buttonstack">
+    <button (click)="saveFile()">Export data</button>
+    <button (click)="loadFile()">Import Data</button>
+    <button (click)="clearFile()">Erase all data</button>
+</div>
+    <div>
+        <p>
+            Current Situation:
+            <br>
+            <strong>{{ lastSaved }}</strong>
+        </p>
+    </div>
+
+<app-ledger-view></app-ledger-view>
+<hr>
+<div>
+    <p>
+        Loaded data:
+        <br>
+        <br>
+        {{ fullHistory | json }}
+    </p>
+</div>

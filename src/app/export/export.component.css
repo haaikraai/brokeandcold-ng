@@ -1,0 +1,16 @@
+.buttonstack {
+    display: flex;
+    text-align: center;
+    margin: auto;
+    width: 180px;
+    border: 2px dashed salmon;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    margin: 15px;
+    padding: 10px;
+    width: 90%;
+}
