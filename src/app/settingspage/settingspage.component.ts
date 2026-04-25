@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { BeanServiceService } from '../bean-service.service';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, NgForm, NonNullableFormBuilder } from '@angular/forms';
 import { OmniscientTransaction, Transaction } from '../transaction';
+import { StatusControlService } from '../status-control.service';
 
 @Component({
   selector: 'app-settingspage',
@@ -12,6 +13,7 @@ import { OmniscientTransaction, Transaction } from '../transaction';
 export class SettingspageComponent {
   private beanService = inject(BeanServiceService);
   private fb = inject(NonNullableFormBuilder);
+  private statusControl = inject(StatusControlService);
 
   
 
@@ -47,6 +49,7 @@ export class SettingspageComponent {
 }
 
   ngOnInit() {
+    this.statusControl.activeLeftBtn.set("History");
     console.log('opening settings. data is:');
     // console.log(this.settingsForm.value);
   }

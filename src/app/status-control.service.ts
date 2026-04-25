@@ -1,9 +1,11 @@
-import { Injectable } from "@angular/core";
-import { TopbarComponent } from "./topbar/topbar.component";
+import { Injectable, signal } from "@angular/core";
+
+export type availableButtons = "Settings" | "History";
 
 @Injectable({
   providedIn: "root",
 })
+
 export class StatusControlService {
   private status: string = "blank";
   private timer: number = 0;
@@ -11,8 +13,13 @@ export class StatusControlService {
   private statusActive: boolean = false;
   private DISPLAY_TIME = 5000;
 
-  makeBackButton(topBar: TopbarComponent): void {
-    topBar.
+  activeLeftBtn = signal<availableButtons>("Settings");
+
+  
+
+  changeActiveLeftBtn(button: availableButtons) {
+    this.activeLeftBtn.set(button);
+    console.log(`Active left button changed to: ${button}`);
   }
 
   /**
@@ -78,5 +85,15 @@ export class StatusControlService {
 
   getStatus(): string {
     return this.status;
+  }
+
+  toggleLeftButton(button: availableButtons) {
+    // This is for the topbar settings/history button. It toggles between the two.
+    // I will likely expand this in the future to include more buttons, so I want it to be scalable.
+    if (button === "Settings") {
+      this.status = "Settings";
+    } else if (button === "History") {
+      this.status = "History";
+    }
   }
 }

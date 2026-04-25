@@ -9,9 +9,12 @@
         <p>
             Current Situation:
             <br>
-            <strong>{{ lastSaved }}</strong>
+            <strong>{{ lastSaved?.toLocaleString() }}</strong>
+            <br><em>Happens to be the last saved date</em>
         </p>
     </div>
+
+<!-- <app-amodal></app-amodal> -->
 
 <app-ledger-view></app-ledger-view>
 <hr>

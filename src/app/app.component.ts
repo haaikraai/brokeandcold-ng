@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+// import { NgClass } from '@angular/common'
 import { TopbarComponent } from './topbar/topbar.component';
 import { StatusControlService } from './status-control.service';
 import { LedgerViewComponent } from "./ledger-view/ledger-view.component";

@@ -1,5 +1,5 @@
 <div class="top-buttons">
-    <ng-container [ngTemplateOutlet]="leftButton">
+    <ng-container *ngTemplateOutlet="leftButtonSlot()">
 
     </ng-container>
 
@@ -23,7 +23,7 @@
 
     <ng-template #backButton>
         <span class="link-icon" id="historyButton">
-            <button onclick="globalThis.history.back()">
+            <button (click)="gotoBack()">
                 <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24">
                     <path
                         d="M19,11H7.414l5.293-5.293a1,1,0,0,0-1.414-1.414L4.586,12l6.707,6.707a1,1,0,0,0,1.414-1.414L7.414,13H19a1,1,0,0,0,0-2Z"

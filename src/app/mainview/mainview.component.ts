@@ -21,6 +21,7 @@ export class MainviewComponent {
   
 
   ngOnInit(): void {
+    this.statusControl.changeActiveLeftBtn("Settings");
   }
 
   onIncrement() {
@@ -44,7 +45,7 @@ export class MainviewComponent {
   }
 
   onTestButton() {
-    console.log(this.beanService.ledger.ledgerData);
+    
   }
 
   ngOnDestroy() {

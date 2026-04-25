@@ -1,11 +1,11 @@
 import { Component, inject } from "@angular/core";
 import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
-import {} from "@angular/core";
 import { BeanServiceService } from "../bean-service.service";
 import { OmniscientTransaction } from "../transaction";
 import { JsonPipe } from "@angular/common";
 import { StatusControlService } from "../status-control.service";
 import { LedgerViewComponent } from "../ledger-view/ledger-view.component";
+// import { AmodalComponent } from "../amodal/amodal.component";
 
 @Component({
   selector: "app-export",
@@ -24,6 +24,9 @@ export class ExportComponent {
   constructor() {}
 
   ngOnInit() {
+    // make a backbutton
+    this.statusControl.activeLeftBtn.set("History");
+
     console.log("In oninit of export");
     this.getLastSavedDate();
 
@@ -92,6 +95,7 @@ export class ExportComponent {
 
   getPlatform(): string {
     console.log("platform using:");
+    
     let detectedPlatform: string = "unknown";
     if (typeof window !== "undefined" && (window as any).Capacitor) {
       detectedPlatform = (window as any).Capacitor.getPlatform();
@@ -130,7 +134,15 @@ export class ExportComponent {
   }
 
   async clearFile() {
-    localStorage.clear()
+    const confirmed = confirm("Are you sure you want to clear the file? This cannot be undone.");
+    if (!confirmed) {
+      console.log("File clear cancelled by user.");
+      return;
+    }
+    
+    this.beanService.balanceData.lastUpdated = new Date().getTime();
+    this.beanService.balance = 0;
+    localStorage.clear();
   }
 
   async permissionit(): Promise<boolean> {

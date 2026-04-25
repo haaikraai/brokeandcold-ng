@@ -19,7 +19,7 @@ import { OmniscientTransaction, Transaction } from './transaction';
 */
 export class LedgerBook {
 
-  maxRows = 10;
+  maxRows = 15;
   ledgerData: OmniscientTransaction[] = [];
 
   addEntry(entry: Transaction) {

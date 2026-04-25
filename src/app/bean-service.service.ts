@@ -36,8 +36,8 @@ export class BeanServiceService {
   }
 
   // timeBeforeNewTransaction = 3500; Doubleclick time
-  // VERY fine tuning: the milliseconds to elapse before allowing a click to be registered to a new transaction
-  ALLOWED_IDLE_TIME = 3500;
+  // VERY fine tuning: the milliseconds to elapse before allowing a click to be registered to a new transaction. I.e time between recurrent clicks for counting the increments and decrements.
+  ALLOWED_IDLE_TIME = 1300;
   runningTotal = 0;
   clickTimer: EventTimer = new EventTimer(this.ALLOWED_IDLE_TIME, () => this.updateBalance(this.runningTotal));
 
